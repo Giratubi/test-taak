@@ -822,15 +822,88 @@ angular
             });
             let isAddingArea = false;
             let centerMarker, resizeMarker, circleLayerId;
-            document.getElementById('aggiungiArea').addEventListener('click', function() {
-                const raggio = parseFloat(document.getElementById('raggioInput').value);
-                if (isNaN(raggio) && raggio <= 0) {
+            
+            function setMarkerListeners(centerMarker, resizeMarker, circleLayerId) {
+                centerMarker.on('drag', function() {
+                    const newCenter = centerMarker.getLngLat();
+                    // Sposta anche il marker di ridimensionamento
+                    const bearing = turf.bearing(newCenter.toArray(), resizeMarker.getLngLat().toArray());
+                    const distance = turf.distance(newCenter.toArray(), resizeMarker.getLngLat().toArray(), 'meters');
+                    const newEdgePoint = turf.destination(newCenter.toArray(), distance, bearing, 'meters').geometry.coordinates;
+                    resizeMarker.setLngLat(newEdgePoint);
+                    updateCircle(newCenter, distance);
+                });
+                resizeMarker.on('drag', function() {
+                    const center = centerMarker.getLngLat();
+                    const edge = resizeMarker.getLngLat();
+                    const newRadius = Math.max(1, turf.distance(center.toArray(), edge.toArray(), 'meters'));
+                    updateCircle(center, newRadius);
+                });
+                function updateCircle(center, radius) {
+                    radius = Math.max(1, radius);
+                    const newCircle = turf.circle(center.toArray(), radius, {steps: 100, units: 'meters'});
+                    mapb.getSource(circleLayerId).setData(newCircle);
+                }
+            }
+            $scope.dashboard = {
+                radius: null,
+                addArea: function() {
+                    if (this.radius) {
+                        const center = mapb.getCenter().toArray();
+                        const circleOptions = { steps: 100, units: 'meters' };
+                        const circlePolygon = turf.circle(center, this.radius, circleOptions);
+                        circleLayerId = Date.now().toString();
+                        if (mapb.getSource(circleLayerId)) {
+                            mapb.removeLayer(circleLayerId);
+                            mapb.removeSource(circleLayerId);
+                        }
+                        mapb.addSource(circleLayerId, {
+                            type: 'geojson',
+                            data: circlePolygon
+                        });
+                        mapb.addLayer({
+                            id: circleLayerId,
+                            type: 'fill',
+                            source: circleLayerId,
+                            paint: {
+                                'fill-color': '#FF0000',
+                                'fill-opacity': 0.9,
+                                'fill-outline-color': '#000000'
+                            }
+                        });
+                        centerMarker = new mapboxgl.Marker({
+                            color: "#000000",
+                            draggable: true
+                        }).setLngLat(center).addTo(mapb);
+            
+                        centerMarker.on('dragend', function() {
+                            const newCenter = centerMarker.getLngLat();
+                            $scope.latitude = newCenter.lat;
+                            $scope.longitude = newCenter.lng;
+                            $scope.radius = $scope.dashboard.radius;
+                            $scope.$apply(); // Assicurati che AngularJS rilevi le modifiche
+                        });
+                    } else {
+                        alert("Per favore, inserisci un raggio valido.");
+                    }
+                }
+            };
+            /// mapbox new row button end
+
+            function createCircle(center, radius) {
+                $('#showdeletearea').hide()
+                //console.log("center",center)
+                $scope.radius = null
+                $scope.latitude = null
+                $scope.longitude = null
+                $scope.radius = parseFloat(document.getElementById('raggioInput').value);
+                if (isNaN($scope.radius) && $scope.radius <= 0) {
                     alert("Per favore, inserisci un valore valido per il raggio.");
                 }
                 if (!isAddingArea) { 
                     isAddingArea = true;
                     const center = mapb.getCenter().toArray(); 
-                    const radius = 100; 
+                    const radius = $scope.radius; 
                     const circleOptions = { steps: 100, units: 'meters' };
                     const circlePolygon = turf.circle(center, radius, circleOptions);
                     circleLayerId = Date.now().toString();
@@ -877,78 +950,6 @@ angular
                     setMarkerListeners(centerMarker, resizeMarker, circleLayerId);
                     isAddingArea = false;
                 }
-            });
-            function setMarkerListeners(centerMarker, resizeMarker, circleLayerId) {
-                centerMarker.on('drag', function() {
-                    const newCenter = centerMarker.getLngLat();
-                    // Sposta anche il marker di ridimensionamento
-                    const bearing = turf.bearing(newCenter.toArray(), resizeMarker.getLngLat().toArray());
-                    const distance = turf.distance(newCenter.toArray(), resizeMarker.getLngLat().toArray(), 'meters');
-                    const newEdgePoint = turf.destination(newCenter.toArray(), distance, bearing, 'meters').geometry.coordinates;
-                    resizeMarker.setLngLat(newEdgePoint);
-                    updateCircle(newCenter, distance);
-                });
-                resizeMarker.on('drag', function() {
-                    const center = centerMarker.getLngLat();
-                    const edge = resizeMarker.getLngLat();
-                    const newRadius = Math.max(1, turf.distance(center.toArray(), edge.toArray(), 'meters'));
-                    updateCircle(center, newRadius);
-                });
-                function updateCircle(center, radius) {
-                    radius = Math.max(1, radius);
-                    const newCircle = turf.circle(center.toArray(), radius, {steps: 100, units: 'meters'});
-                    mapb.getSource(circleLayerId).setData(newCircle);
-                }
-            }
-            /// mapbox new row button end
-
-            function createCircle(center, radius) {
-                $('#showdeletearea').hide()
-                //console.log("center",center)
-                $scope.radius = null
-                $scope.latitude = null
-                $scope.longitude = null
-                var circle = new google.maps.Circle({
-                    fillColor: '#ffffff',
-                    fillOpacity: .6,
-                    strokeWeight: 1,
-                    strokeColor: '#ff0000',
-                    draggable: true,
-                    editable: true,
-                    map: map,
-                    center: center,
-                    radius: Number(radius),
-                    clickable: false
-                });
-                $scope.newCircle = circle
-                $scope.radius = circle.getRadius()
-                $scope.latitude = circle.getCenter().lat();
-                $scope.longitude = circle.getCenter().lng();
-                $('#showdeleteareaForNew').show()
-                google.maps.event.addListener(circle, 'radius_changed', function (event) {
-                    $scope.radius = circle.getRadius()
-                    $scope.latitude = circle.getCenter().lat();
-                    $scope.longitude = circle.getCenter().lng();
-                    $scope.newCircle = circle
-                    $('#showdeleteareaForNew').show()
-                });
-                google.maps.event.addListener(circle, 'center_changed', function (event) {
-                    $scope.radius = circle.getRadius()
-                    $scope.latitude = circle.getCenter().lat();
-                    $scope.longitude = circle.getCenter().lng();
-                    $scope.newCircle = circle
-                    $('#showdeleteareaForNew').show()
-                });
-                google.maps.event.addListener(circle, 'click', function (event) {
-                    $scope.radius = circle.getRadius()
-                    $scope.latitude = circle.getCenter().lat();
-                    $scope.longitude = circle.getCenter().lng();
-                    $scope.newCircle = circle
-                    $('#showdeleteareaForNew').hide()
-                    $timeout(function () {
-                        $('#showdeleteareaForNew').show()
-                    }, 500, true);
-                });
                 return circle;
             }
             $scope.removeArea = function () {
