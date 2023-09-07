@@ -823,6 +823,11 @@ angular
             let isAddingArea = false;
             let centerMarker, resizeMarker, circleLayerId;
             document.getElementById('aggiungiArea').addEventListener('click', function() {
+                const raggio = parseFloat(document.getElementById('raggioInput').value);
+                if (!isNaN(raggio) && raggio > 0) {
+                } else {
+                    alert("Per favore, inserisci un valore valido per il raggio.");
+                }
                 if (!isAddingArea) { 
                     isAddingArea = true;
                     const center = mapb.getCenter().toArray(); 
