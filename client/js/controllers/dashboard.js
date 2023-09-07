@@ -896,10 +896,6 @@ angular
                 $scope.radius = null
                 $scope.latitude = null
                 $scope.longitude = null
-                $scope.radius = parseFloat(document.getElementById('raggioInput').value);
-                if (isNaN($scope.radius) && $scope.radius <= 0) {
-                    alert("Per favore, inserisci un valore valido per il raggio.");
-                }
                 if (!isAddingArea) { 
                     isAddingArea = true;
                     const center = mapb.getCenter().toArray(); 
@@ -950,7 +946,7 @@ angular
                     setMarkerListeners(centerMarker, resizeMarker, circleLayerId);
                     isAddingArea = false;
                 }
-                return circle;
+                //return circle;
             }
             $scope.removeArea = function () {
                 if ($scope.selectedareatype.type == "V" && $scope.isuserrole == true) {
