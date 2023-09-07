@@ -1,0 +1,116 @@
+{
+  "name": "Gateway",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true
+    },
+    "hwversion": {
+      "type": "string"
+    },
+    "swversion": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "volt": {
+      "type": "string"
+    },
+    "state": {
+      "type": "boolean"
+    },
+    "error": {
+      "type": "string"
+    },
+    "lat": {
+      "type": "string"
+    },
+    "lon": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "relename": {
+      "type": "string"
+    },
+    "secondmail": {
+      "type": "string"
+    },
+    "reciveddate": {
+      "type": "string"
+    },
+    "nosignal": {
+      "type": "boolean"
+    },
+    "emailsent": {
+      "type": "boolean"
+    },
+    "maptype": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "connectors": {
+      "type": "hasMany",
+      "model": "Connector",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "companies": {
+      "type": "hasMany",
+      "model": "Company",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "Gatewaycompany"
+    },
+    "gatewayspositions": {
+      "type": "hasMany",
+      "model": "Gatewayspositions",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "rele": {
+      "type": "hasMany",
+      "model": "Rele",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "gatewayradius": {
+      "type": "hasMany",
+      "model": "Gatewayradius",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "gatewayvolts": {
+      "type": "hasMany",
+      "model": "Gatewayvolts",
+      "foreignKey": "",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

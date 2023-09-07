@@ -1,0 +1,91 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+  style="display: block;overflow-y: auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Dettagli Tipo Sensore</h4>
+            </div>
+
+            <div class="modal-body">
+
+
+            	<div class="row">
+					<div class="col-md-12">
+						<div class="demo-form-wrapper">
+							<form class="form form-horizontal form-padding" ng-submit="updateSensorType()">
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="form-control-3"></label>
+									<div class="col-sm-12">	
+										<div class="col-sm-4 col-xs-12">
+										    <div class="multilabel">Nome </div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="name"  autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+										<div class="col-sm-4 col-xs-12">
+										    <div class="multilabel">Codice</div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="code" autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+										<div class="col-sm-4 col-xs-12">
+										    <div class="multilabel">Unità di misura</div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="unitmeasure" autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+										
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="form-control-3"></label>
+									<div class="col-sm-12">
+										<div class="col-sm-12 col-xs-12">
+										    <div class="multilabel">Settings</div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="settings" autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>											
+										<div class="col-sm-12 col-xs-12">
+										    <div class="multilabel">Descrizione </div>
+										    <div class="input-with-icon">
+												<textarea id="form-control-2" class="form-control" type="text" ng-model="description" autocomplete="off_" rows="5" style="width: 100%;"></textarea>
+											</div>									    
+										</div>
+									</div>
+								</div>         
+								
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="form-control-3"></label>
+									<div class="col-sm-4 text-center">
+										<button ng-disabled="isDisabled" type="submit" class="btn btn-primary btn-block" style="margin-top: 50px;
+										">Aggiorna Tipo Sensore</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+                
+            </div>
+
+            <toaster-container 
+			    toaster-options="{'time-out': 3000, 'toaster-id': 'error-toaster-container', 'close-button': true, 
+			    'position-class': 'toast-center', 'time-out': 0, 'mouseover-timer-stop': false }"></toaster-container>
+        </div>
+        <div class="modal-footer">
+        	
+			
+			
+        </div>
+    </div>
+</div>
+

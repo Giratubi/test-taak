@@ -1,0 +1,41 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mariaDb": {
+    "host": "production_mysql_1",
+    "port": 3306,
+    "database": "taaak",
+    "password": "password",
+    "name": "mariaDb",
+    "user": "root",
+    "connector": "mysql"
+  },
+  "emailDs": {
+    "name": "emailDs",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "smtp",
+        "host": "mail.bytesfarm.it",
+        "secure": false,
+        "port": 587,
+        "tls": {
+          "rejectUnauthorized": false
+        },
+        "auth": {
+          "user": "info@bytesfarm.it",
+          "pass": "AF22computerP@$$w0rd"
+        }
+      }
+    ]
+  },
+  "container": {
+    "name": "container",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./storage/",
+    "nameConflict": "makeUnique"
+  }
+}

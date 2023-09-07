@@ -1,0 +1,30 @@
+{
+  "name": "Pddstorageb",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "required": true
+    },
+    "filename": {
+      "type": "string"
+    },
+    "storagefilename": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "modelid": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

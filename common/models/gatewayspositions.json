@@ -1,0 +1,47 @@
+{
+  "name": "Gatewayspositions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "latitude": {
+      "type": "string"
+    },
+    "longitude": {
+      "type": "string"
+    },
+    "altitude": {
+      "type": "string"
+    },
+    "reciveddate": {
+      "type": "string"
+    },
+    "sat": {
+      "type": "string"
+    },
+    "speed": {
+      "type": "string"
+    },
+    "distance": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "gateway": {
+      "type": "belongsTo",
+      "model": "Gateway",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,610 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+  style="display: block;overflow-y: auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{name}}</h4>
+            </div>
+
+            <div class="modal-body">
+            	
+
+            	<div class="row ">
+					<div >
+						<div class="col-sm-12">
+							<h3>Filtri</h3>
+							<div class="col-sm-3">
+								Data Da:
+								<input type="date" name="" class="form-control" ng-model="dateFrom">
+							</div>
+							<div class="col-sm-3">
+								Ora Da
+								<input type="time" name="" class="form-control" ng-model="hourFrom">
+							</div>
+							<div class="col-sm-3">
+								Data A:
+								<input type="date" name="" class="form-control" ng-model="dateTo">
+							</div>
+							<div class="col-sm-3">
+								Ora A:
+								<input type="time" name="" class="form-control" ng-model="hourTo">
+							</div>
+							<div class="col-sm-12 text-center">
+								<button class="btn btn-secondary mrt30" ng-click="filterValues()">Filtra</button>
+							</div>
+						</div>
+						
+						<div ng-if="isTemp == true && data.results.length > 0">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Temperatura Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px; width: 100%;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Temperature</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+
+													
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;" >
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in  temperatureData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.temperature}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+
+						<div ng-if="isBalance == true && data.results.length > 0">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Peso Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px; width: 100%;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Peso</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+
+													
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;" >
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in  balanceData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.weight}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+
+						<div ng-if="isVoltage == true">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Voltaggio Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px; width: 100%;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Voltaggio</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;" >
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in voltageData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.voltage}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+
+						<div ng-if="isGas == true">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Qunatità Gas Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px; width: 100%;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Quantità Gas</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;">
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in  gasData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.gas}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+
+						<div ng-if="isPression == true">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Pressione Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px; width: 100%;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Pressione</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;">
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in pressionData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.pression}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+
+						<div ng-if="isUmidity == true">
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">
+									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Umidità Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>
+													
+												</div>
+											</div>
+											<div class="panel-body">	
+												
+												<div id="gauge-1" style="height: 430px;margin: 0 30px;"></div>
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+								<div class="col-sm-7">
+								
+								<div class="chart-item-bg">
+									
+										
+									<div class="row">
+										<div class="col-sm-12">
+										
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Umidità</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+														
+													</div>
+												</div>
+												<div class="panel-body">	
+													
+													<div id="bar-3" style="height: 400px; width: 100%;"></div>
+												</div>
+											</div>
+												
+										</div>
+									</div>
+									
+											
+								</div>
+								
+							</div>
+							<div style="float:right;">
+								<button class="btn btn-secondary mrt30" ng-click="createPDF()">Scarica Pdf</button>
+							</div>
+
+							<div class="col-sm-12" id="dataTable" style="height: 200px!important; overflow-y: scroll;">
+									<table class="table table-striped table-bordered"  >
+									<thead>
+										<tr >
+											
+											<th>Ora</th>
+											<th>Valore</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in umidityData track by $index">
+											
+											<td>{{row.hour}}</td>
+											<td>{{row.umidity}}</td>
+										</tr>
+									
+									</tbody>
+									
+								</table>			
+
+
+							</div>	
+						</div>
+						
+						<div ng-if="isSwitch == true" >
+							<div class="col-sm-5">		
+								<div class="row">
+									<div class="col-sm-12">									
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Stato Attuale</h3>
+												<div class="panel-options">
+													<a href="#" data-toggle="panel">
+														<span class="collapse-icon">&ndash;</span>
+														<span class="expand-icon">+</span>
+													</a>													
+												</div>
+											</div>
+											<div class="panel-body">												
+												<div class="text-center switchdivstatus">
+													ON
+												</div> 
+											</div>
+										</div>					
+									</div>
+								</div>		
+							</div>
+							<div class="col-sm-7">								
+								<div class="chart-item-bg">	
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h3 class="panel-title">Posizionamento</h3>
+													<div class="panel-options">
+														<a href="#" data-toggle="panel">
+															<span class="collapse-icon">&ndash;</span>
+															<span class="expand-icon">+</span>
+														</a>
+													</div>
+												</div>
+												<div class="panel-body">
+													<div id="bar-5" style="height: 400px; width: 100%;"></div>
+												</div>
+											</div>												
+										</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+
+						<div ng-if="isTemp == true && data.results.length <= 0 || isBalance == true && data.results.length <= 0 || isGas == true && data.results.length <= 0 || 
+						isUmidity == true && data.results.length <= 0 || isSwitch == true && data.results.length <= 0 || isPression == true && data.results.length <= 0 || isVoltage == true && data.results.length <= 0">
+							<p style="font-size: 24px;"> Non vi sono dati registrati nelle ultime ore o in questo momento il sensore o il dispositivo non è collegato</p>
+						</div>
+
+					</div>
+				</div>
+            </div>            
+        </div>
+        <div class="modal-footer">
+        	
+			
+			
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,29 @@
+{
+  "name": "OperationsServices",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {}
+    }
+  },
+  "properties": {
+    "operationsid": {
+      "type": "number",
+      "required": true,
+      "description": "Operation id "
+    },
+    "servicesid": {
+      "type": "number",
+      "required": true,
+      "description": "Service id"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

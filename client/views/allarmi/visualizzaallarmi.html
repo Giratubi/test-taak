@@ -1,0 +1,40 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Visualizza lista allarmi"></page-title>
+
+<div class="panel panel-default">
+	
+	<div class="panel-body">
+
+		<div class="row">
+
+			<table class="table table-striped table-bordered" id="showalarms">
+				<thead>
+					<tr >
+						<th>Aux</th>
+						<th>Tipo Allarme</th>
+						<th>Gateway</th>
+						<th>Azienda</th>
+						<th class="text-center">Stato</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in alarms">
+						<td>{{row.aux}}</td>
+						<td>{{row.alarmtype.name}}</td>
+						<td>{{row.gateway.name}}</td>
+						<td>{{row.gateway.companies[0].name}}</td>
+						
+						<td class="text-center"><p hidden>{{row.state}}</p>
+							<input type="checkbox" ng-model="row.state"  value="{{row.state}}" ng-checked="{{row.state}}" ng-click="switchalarmstatus(row)" class="iswitch iswitch-secondary">
+						</td>
+					</tr>
+				
+				</tbody>
+				
+			</table>
+				
+
+
+		</div>
+	</div>
+</div>

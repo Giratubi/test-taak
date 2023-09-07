@@ -1,0 +1,34 @@
+{
+  "name": "UsersOperations",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "properties": {
+    "active": {
+      "type": "boolean",
+      "description": "True if operation is active for user"
+    },
+    "usersid": {
+      "type": "number",
+      "required": true,
+      "description": "The id of user"
+    },
+    "operationsid": {
+      "type": "number",
+      "required": true,
+      "description": "The id of operation"
+    },
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "description": "Id fields"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

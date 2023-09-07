@@ -1,0 +1,43 @@
+{
+  "name": "Gatewayradius",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "latitude": {
+      "type": "string",
+      "index":true
+    },
+    "longitude": {
+      "type": "string",
+      "index":true
+    },
+    "radius": {
+      "type": "string"
+    },
+    "radiustype": {
+      "type": "string"
+    },
+    "emailsent": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "gateway": {
+      "type": "belongsTo",
+      "model": "Gateway",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

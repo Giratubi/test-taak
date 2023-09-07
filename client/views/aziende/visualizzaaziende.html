@@ -1,0 +1,51 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Visualizza lista aziende registrate"></page-title>
+
+<div class="panel panel-default datatableresp panelblue">
+
+	<div class="panel-body" ng-controller="visualizzaAziendeController">
+
+		<div class="row">
+
+			<table class="table table-striped table-bordered" id="showcompanies">
+				<thead>
+					<tr >
+						<th>Nome</th>
+						<th>Tipo Azienda</th>
+						<th>Stato</th>
+						<th>P.iva</th>
+						<th>Email</th>
+						
+						<th class="text-center">Edita</th>
+						<th class="text-center">Elimina</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in companies">
+						<td>
+						<span ng-if="row.gatewayproblems == true" class="btn btn-icon btn-warning" title="Un dispositivo presenta un errore" style="cursor: default;"><i class="fa-warning"></i></span>
+							{{row.name}}
+						</td>
+
+						<td>{{row.companytype.name}}</td>
+						<td ng-if="row.gatewayproblems == false"><p style="opacity: 0">{{row.gatewayproblems}}</p> Stato ok</td>
+						<td ng-if="row.gatewayproblems == true"><p style="opacity: 0">{{row.gatewayproblems}}</p> In Allarme</td>
+						<td>{{row.vatnumber}}</td>
+						<td>{{row.email}}</td>
+						
+						<td class="text-center">
+							<button type="button" ng-click="editCompany(row)" class="btn btn-icon btn-success"><span class="fa fa-pencil"></span></button>
+						</td>
+						<td class="text-center">
+							<button type="button" ng-click="deleteCompany_(row)" class="btn btn-icon btn-red"><span class="fa fa-trash"></span></button>
+						</td>
+					</tr>
+				
+				</tbody>
+				
+			</table>
+				
+
+
+		</div>
+	</div>
+</div>

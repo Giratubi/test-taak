@@ -1,0 +1,43 @@
+{
+  "name": "Sensorvaluelimit",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "min": {
+      "type": "number"
+    },
+    "max": {
+      "type": "number"
+    },
+    "value": {
+      "type": "boolean"
+    },
+    "code": {
+      "type": "string",
+      "index":true
+    },
+    "emailsent": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "reles": {
+      "type": "hasMany",
+      "model": "Rele",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "Sensorvaluelimitrele"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

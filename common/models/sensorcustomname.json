@@ -1,0 +1,26 @@
+{
+  "name": "Sensorcustomname",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "connectorId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "sensortypeId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

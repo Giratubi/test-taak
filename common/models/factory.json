@@ -1,0 +1,97 @@
+{
+  "name": "Factory",
+  "description": "Company and sub Company",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {
+        "create": "Create a new factory in application ",
+        "find": "Find a factory with filter"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "required": true,
+      "description": "The id of Factory, sub Factory"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "The name of Factory, sub Factory"
+    },
+    "logo": {
+      "type": "string",
+      "required": true,
+      "description": "Logo filename for Login and page"
+    },
+    "url": {
+      "type": "string",
+      "required": true,
+      "description": "Url of services for this Factory"
+    },
+    "request_day_before_history": {
+      "type": "number",
+      "required": true,
+      "description": "Number of day before a Complete Requests Groups transfer to Requests history, if they are not confirmed "
+    },
+    "isdefault": {
+      "type": "boolean",
+      "required": true,
+      "description": "A boolean, if it's the Master Factory, have true else have false"
+    },
+    "rsback": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request that have complete route"
+    },
+    "rsforapprovation": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request that have been approvation"
+    },
+    "rsapproved": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request approved"
+    },
+    "rsrejected": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request rejected"
+    },
+    "rsbackrefused": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request refused by HR"
+    },
+    "rsbackerror": {
+      "type": "number",
+      "required": true,
+      "description": "State Id of request which HR processing ended with unhandled error"
+    },
+    "emailfrom": {
+      "type": "string",
+      "required": true,
+      "description": "Email from for user password requests reset"
+    },
+    "autoapprovedusersid": {
+      "type": "string",
+      "description": "Email from for user password requests reset"
+    },
+    "style": {
+      "type": "string",
+      "description": "Style of application"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

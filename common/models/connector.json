@@ -1,0 +1,58 @@
+{
+  "name": "Connector",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true
+    },
+    "macaddress": {
+      "type": "string"
+    },
+    "hwversion": {
+      "type": "string"
+    },
+    "swversion": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "aux": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "gateway": {
+      "type": "belongsTo",
+      "model": "Gateway",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "sensorvalues": {
+      "type": "hasMany",
+      "model": "Sensorvalue",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "rele": {
+      "type": "hasMany",
+      "model": "Rele",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

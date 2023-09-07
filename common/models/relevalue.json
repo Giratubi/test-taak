@@ -1,0 +1,26 @@
+{
+  "name": "Relevalue",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "value": {
+      "type": "boolean"
+    },
+    "creationdate": {
+      "type": "string"
+    },
+    "reciveddate": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

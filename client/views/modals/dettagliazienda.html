@@ -1,0 +1,228 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+  style="display: block;overflow-y: auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Dettagli Azienda</h4>
+            </div>
+
+            <div class="modal-body">
+            	<div class="cratediv" ng-if="gateways.length >0">
+					<button class="btn btn-icon btn-success " ng-click="showGetawaysTable()" id="showgatewaysbtn">
+					
+						<i class="fa-cube" id="iconbtn"></i>
+						<span>Visualizza Dispositivi</span>
+					</button>
+
+					<button class="btn btn-icon btn-success" ng-click="showCompanyDetails()" id="showcompnaydetailsbtn" >
+					
+						<i class="fa-building" id="iconbtn"></i>
+						<span>Visualizza dettagli azienda</span>
+					</button>
+
+					<button class="btn btn-icon btn-success" ng-click="connectorsDetail()" id="showconnectorsbtn" >
+					
+						<i class="fa-building" id="iconbtn"></i>
+						<span>Visualizza Connettori</span>
+					</button>
+				</div>
+
+            	<div class="row " id="companydetails">
+					<div class="col-md-12">
+						<div class="demo-form-wrapper">
+							<form class="form form-horizontal form-padding" ng-submit="updateCompany()">
+								
+								<div class="form-group">									
+									<div class="col-sm-12">	
+										<div class="col-sm-3 col-xs-12">
+										    <div class="multilabel">Nome </div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="name"  autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>										
+										<div class="col-sm-3 col-xs-12">
+										    <div class="multilabel">Indirizzo </div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="address"  autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+										<div class="col-sm-3 col-xs-12">
+										    <div class="multilabel">P.iva </div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="vatnumber"  autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+
+										<div class="col-sm-3 col-xs-12">
+										    <div class="multilabel">Email</div>
+										    <div class="input-with-icon">
+												<input id="form-control-1" class="form-control uppercase" type="text" ng-model="email"  autocomplete="off">
+												<span class="icon icon-edit input-icon"></span>
+											</div>										    
+										</div>
+										
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="col-sm-12">									
+										<div class="col-sm-12 col-xs-12">
+										   	<div class="multilabel">Descrizione </div>
+										    <div class="input-with-icon">
+												<textarea id="form-control-2" class="form-control" type="text" ng-model="description" autocomplete="off_" rows="5" style="width: 100%;"></textarea>
+											</div>								    
+										</div>										
+									</div>									
+								</div>         
+								
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="form-control-3"></label>
+									<div class="col-sm-4 text-center">
+										<button ng-disabled="isDisabled" type="submit" class="btn btn-primary btn-block" style="margin-top: 50px;
+										">Aggiorna Azienda</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" ng-if="gateways.length >0" id="listofgateways">
+					<h3>Dispositivi azienda {{name}}</h3>
+					<table class="table table-striped table-bordered" id="showgateways">
+						<thead>
+							<tr >
+								<th width="20%">Nome Dispositivo</th>
+								<th width="20%">Descrizione</th>
+								<th class="text-center">Hardware version</th>
+								<th class="text-center">Software version</th>
+								<th class="text-center">Stato</th>
+								<th width="15%">Errore</th>
+								<th class="text-center">Nr.Connettori</th>
+								<th class="text-center">Dettagli Connettori</th>
+								<th class="text-center">Posizione</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="row in gateways">
+								<td width="20%">
+									<p hidden>{{row.name}}</p>
+									<span ng-show="row.error" class="btn btn-icon btn-warning nocursor"><i class="fa-warning"></i></span>
+									<input class="inputblank" ng-model="row.name" value="{{row.name}}" ng-focus="focusN=true" ng-blur="focusN=false"><span ng-show="focusN || mouseoverN" ng-click="updateGateway(row)" ng-mouseover="mouseoverN=true" ng-mouseleave="mouseoverN=false" class="btn btn-icon btn-success pull-right"><i class="fa-save"></i></span>
+								</td>
+								<td width="20%">
+									<p hidden>{{row.description}}</p>
+									<textarea type="text" class="inputblank csttextarea" ng-model="row.description" value="{{row.description}}" ng-focus="focusD=true" ng-blur="focusD=false"></textarea>
+										<span ng-show="focusD || mouseoverD" ng-click="updateGateway(row)" ng-mouseover="mouseoverD=true" ng-mouseleave="mouseoverD=false" class="btn btn-icon btn-success pull-right"><i class="fa-save"></i>
+										</span>
+
+								</td>
+								<td class="text-center">{{row.hwversion}}</td>
+								<td class="text-center">{{row.swversion}}</td>
+								<td class="text-center"><p hidden>{{row.state}}</p>
+									<input type="checkbox" value="{{row.state}}" ng-checked="{{row.state}}" ng-click="updateGateway(row)" ng-model="row.state" class="iswitch iswitch-secondary">
+								</td>
+								<td width="15%">{{row.error}}
+									<span class="pull-right" ng-show="row.error.length > 0">
+										<button class="btn btn-icon btn-red" ng-click="updateGateway(row,deleteerror= true)">
+												<i class="fa-trash"></i>
+										</button>
+									</span>
+								</td>
+								<td class="text-center">{{row.connectors.length}}</td>
+								<td class="text-center">
+									<button type="button" ng-if="row.connectors.length >0" ng-click="gatewayDetails(row)" class="btn btn-icon btn-success"><span class="fa fa-eye"></span></button>
+								</td>
+
+								<td class="text-center">
+									<button type="button"  ng-click="showMap(row)" class="btn btn-icon btn-blue"><span class="fa fa-map-marker"></span></button>
+								</td>
+								
+							</tr>
+						
+						</tbody>
+						
+					</table>
+				
+				</div>
+
+				<div class="row" id="listofconnectors">
+					<h3>Connettori del dispositivo : {{gtwname}}</h3>
+					<table class="table table-striped table-bordered" id="showconnectors">
+						<thead>
+							<tr >
+								<th>Nome Connettore</th>
+								<th>Hardware version</th>
+								<th>Software version</th>
+								<th>Mac address</th>
+
+								<th class="text-center">Dettagli</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="row in connectors">
+								<td>
+									<p hidden>{{row.name}}</p>
+									<input class="inputblank" ng-model="row.name" value="{{row.name}}" ng-focus="focusC=true" ng-blur="focusC=false"><span ng-show="focusC || mouseoverC" ng-click="updateConnector(row)" ng-mouseover="mouseoverC=true" ng-mouseleave="mouseoverC=false" class="btn btn-icon btn-success pull-right"><i class="fa-save"></i></span>
+
+								</td>
+								<td>{{row.hwversion}}</td>
+								<td>{{row.swversion}}</td>
+								<td>{{row.macaddress}}</td>
+								<td class="text-center">
+									<button type="button" ng-click="showConnectorsDetail(row)"  class="btn btn-icon btn-success"><span class="fa fa-eye"></span></button>
+								</td>								
+							</tr>
+						</tbody>
+						
+					</table>
+				
+				</div>
+
+				<div class="row" id="listofsensors">
+					<h3>Sensori del connettore : {{conname}}</h3>
+					<table class="table table-striped table-bordered" id="showsensors">
+						<thead>
+							<tr >
+								<th>Codice</th>
+								<th>Tipo Sensore</th>
+								<th>Descrizione</th>
+								
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="row in sensors">
+								<td>{{row.code}}</td>
+								<td>{{row.sensortype.name}}</td>
+								<td>{{row.sensortype.description}}</td>
+																
+							</tr>
+						</tbody>
+						
+					</table>
+				
+				</div>
+
+                
+            </div>
+
+            <toaster-container 
+			    toaster-options="{'time-out': 3000, 'toaster-id': 'error-toaster-container', 'close-button': true, 
+			    'position-class': 'toast-center', 'time-out': 0, 'mouseover-timer-stop': false }"></toaster-container>
+        </div>
+        <div class="modal-footer">
+        	
+			
+			
+        </div>
+    </div>
+</div>
+

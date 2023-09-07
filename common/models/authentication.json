@@ -1,0 +1,33 @@
+{
+  "name": "Authentication",
+  "description": "Authentication Role and Mappings",
+  "base": "Role",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "hidden": [
+    "created",
+    "modified"
+  ],
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {
+        "create": "Create a new role in application ",
+        "find": "Find Role in database"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "required": true,
+      "description": "The id of Authentication row"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

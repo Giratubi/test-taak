@@ -1,0 +1,37 @@
+{
+  "name": "Gatewaycompany",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": false
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "installationcompanyId": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "gateway": {
+      "type": "belongsTo",
+      "model": "Gateway",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "company": {
+      "type": "belongsTo",
+      "model": "Company",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

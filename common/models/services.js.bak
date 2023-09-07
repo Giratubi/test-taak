@@ -1,0 +1,715 @@
+'use strict';
+
+var methodsHelper = require('../../server/helpers/methods');	
+var app = require('../../server/server');
+var loopback = require('loopback');
+
+module.exports = function(Services) {
+
+	
+	Services.initializateServices = async () => {
+	    try {
+	    	
+	        debugger;
+	        let results;
+	        // service for this application versions.   
+
+			var Internalcauses = app.models.InternalCauses;
+
+			var internalAll = await Internalcauses.find();
+
+			let modelschemaAll = {};
+
+			var dsIn = app.dataSources.db;
+
+		    const configIn = {dataSource:'db',public:false}
+			let modelIn;
+				
+			let modelschema;
+			
+			for(const int of internalAll){
+				
+				modelschema = await JSON.parse(int.returnedobject);
+		      
+				var obj = {
+		          "description": int.description,
+				  "base": "Model",
+				  "plural": int.description
+				}
+
+				modelIn = await dsIn.createModel(int.description,modelschema,obj); 
+				var exposedIn = await app.model(modelIn,configIn);	
+				
+				modelschemaAll[int.description] = int.description;
+				
+			}
+
+			var obj = {
+	      "description": 'The results of requests',
+			  "base": "Model"
+			};
+
+			const model = await dsIn.createModel('requestsresults',modelschemaAll,obj); 
+			var exposed = await app.model(model,configIn);	
+
+	        const servicesDirective = [
+	          {
+	            "id": 1,
+	            "name": "readTimeCard",
+	            "description": "Definizione del Json con i dati del cartellino",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"data": {
+						"type": "date"
+					},
+					"timbrature": {
+						"type": "string"
+					},
+					"mensa": {
+						"type": "string"
+					},
+					"causali": {
+						"type": "string"
+					},
+					"richieste": {
+						"type": "string"
+					},
+					"totale1": {
+						"type": "string"
+					},
+					"totale2": {
+						"type": "string"
+					},
+					"totale3": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 2,
+	            "name": "postRequest",
+	            "description": "Definizione del Json con la restituzione dei dati di richiesta approvata",
+	            "verb": "POST",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"id": {
+						"type": "string",
+						"description":"Composed blockid + '_' + Date.Now ",
+						"required": true
+					},
+					"usersfromid": {
+						"type": "number",
+						"required": true,
+						"description":"Routing From User"
+					},
+					"userstoid": {
+						"type": "number",
+						"required": true,
+						"description":"Routing to User"
+					},
+					"operationsid": {
+						"type": "number",
+						"required": true,
+						"description":"Routing for Operation "
+					},
+					"depth": {
+						"type": "number",
+						"required": true,
+						"description":"Routing tree depth"
+					},
+					"blockid": {
+						"type": "string"
+					},
+					"requestdate": {
+						"type": "date",
+						"description":"Generetad Requests Date"
+					},
+					"requeststatesid": {
+						"type": "number",
+						"description":"Request state"
+					},
+					"requeststypesid": {
+						"type": "number",
+						"description":"Request type"
+					},
+					"result": {
+						"type": "requestsresults",
+						"description":"Request type"
+					},     
+	            })
+	          },
+			  {
+	            "id": 3,
+	            "name": "getRelatives",
+	            "description": "Leggi familiari dipendente",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({				
+					"id": {
+						"type": "number",
+						"description":"Relative id",
+						"required": true
+					},
+					"firstname": {
+						"type": "string",
+						"required": true,
+						"description":"Relative first name"
+					},
+					"secondname": {
+						"type": "string",
+						"required": true,
+						"description":"Relative second name"
+					},
+					"usersid": {
+						"type": "number",
+						"required": true,
+						"description":"User id"
+					}
+				})
+	          },
+			  {
+	            "id": 4,
+	            "name": "getMonths",
+	            "description": "Mesi gestiti da HR",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({				
+					"id": {
+						"type": "number",
+						"description":"Relative id",
+						"required": true
+					},
+					"datestart": {
+						"type": "date",
+						"required": true,
+						"description":"Start day of month"
+					},
+					"description": {
+						"type": "string",
+						"required": true,
+						"description":"Relative second name"
+					}
+				})
+	          },
+	          {
+	            "id": 5,
+	            "name": "readClockings",
+	            "description": "Definizione del Json con i dati delle timbrature",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"dategg": {
+						"type": "date"
+					},
+					"hours": {
+						"type": "string"
+					},
+					"origin": {
+						"type": "string"
+					},
+					"clock": {
+						"type": "string"
+					},
+					"timecard": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 6,
+	            "name": "readTotals",
+	            "description": "Definizione del Json con i dati dei totali",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"dategg": {
+						"type": "date"
+					},
+					"description": {
+						"type": "string"
+					},
+					"time": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 7,
+	            "name": "readAnomalies",
+	            "description": "Definizione del Json con i dati delle anomalie",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"dategg": {
+						"type": "date"
+					},
+					"description": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 8,
+	            "name": "readRelativesDegrees",
+	            "description": "Definizione del Json con i dati deli gradi di parentela",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"id": {
+						"type": "number"
+					},
+					"description": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 9,
+	            "name": "readPayslipsCu",
+	            "description": "Definizione del Json con i dati dei cedolini/cu",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"description": {
+						"type": "string"
+					},
+					"fileName": {
+						"type": "string"
+					},
+					"date": {
+						"type": "date"
+					},
+					"data": {
+						"type": "string"
+					}
+	            })
+	          },
+	          {
+	            "id": 10,
+	            "name": "readAddresses",
+	            "description": "Definizione del Json con i dati degli indirizzi",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"residence": {
+						"type": "array"
+					},
+					"domicile": {
+						"type": "array"
+					},
+					"address": {
+						"type": "array"
+					},
+					"actualresidence": {
+						"type": "Object"
+					},
+					"actualdomicile": {
+						"type": "Object"
+					},
+					"actualaddress": {
+						"type": "Object"
+					}
+	            })
+	          },
+	          {
+	            "id": 11,
+	            "name": "postPersonalData",
+	            "description": "Definizione del Json con la restituzione dei dati di richiesta approvata",
+	            "verb": "POST",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"usersid": {
+						"type": "string",
+						"required": true
+					},
+					"factory": {
+						"type": "number"
+					},
+					"email": {
+						"type": "string"
+					},
+					"telephone": {
+						"type": "string"
+					},
+					"residence": {
+						"type": "Object"
+					},
+					"domicile": {
+						"type": "Object"
+					},
+					"address": {
+						"type": "Object"
+					}
+				})
+	          },
+			  {
+	            "id": 12,
+	            "name": "getSubordinates",
+	            "description": "Leggi sottoposti",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({				
+					"id": {
+						"type": "number",
+						"description":"Subordinate id",
+						"required": true
+					},
+					"firstname": {
+						"type": "string",
+						"required": true,
+						"description":"Subordinate first name"
+					},
+					"secondname": {
+						"type": "string",
+						"required": true,
+						"description":"Subordinate second name"
+					}
+				})
+	          },
+	          {
+	            "id": 13,
+	            "name": "postTimecardPrintRequest",
+	            "description": "Definizione del Json con la restituzione dei dati di richiesta stampa cartellino",
+	            "verb": "POST",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"id": {
+						"type": "number",
+						"required": true
+					},
+					"month": {
+						"type": "date"
+					},
+					"usersfromid": {
+						"type": "string"
+					},
+					"userstoid": {
+						"type": "string"
+					},
+					"userssupervisorid": {
+						"type": "string"
+					},
+					"timecardtype": {
+						"type": "number"
+					},
+					"printtype": {
+						"type": "string"
+					},
+					"factory": {
+						"type": "number"
+					}
+				})
+	          },
+	          {
+	            "id": 14,
+	            "name": "readPrintRequests",
+	            "description": "Definizione del Json con la restituzione dei dati di richiesta stampe",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"id": {
+						"type": "number",
+						"required": true
+					},
+					"ddProgress": {
+						"type": "string"
+					},
+					"ddCaption": {
+						"type": "string"
+					},
+					"dtStart": {
+						"type": "string"
+					},
+					"dtEnd": {
+						"type": "string"
+					},
+					"ddNomeUtente": {
+						"type": "string"
+					},
+					"dtRequest": {
+						"type": "string"
+					},
+					"nrFailures": {
+						"type": "number"
+					}
+				})
+	          },
+	          {
+	            "id": 15,
+	            "name": "deletePrintRequest",
+	            "description": "Definizione del Json con la restituzione dei dati di cancellazione richiesta stampe",
+	            "verb": "POST",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+					"id": {
+						"type": "number",
+						"required": true
+					}
+				})
+	          },
+	          {
+	            "id": 16,
+	            "name": "getTimecardPrint",
+	            "description": "Stampa cartellino jasper",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+	            	"data": {
+	            		"type": "string",
+	            		"required": true
+	            	}
+	            })
+	          },
+	          {
+	            "id": 17,
+	            "name": "getRequestAbsenceHoursValue",
+	            "description": "Valore ore richieste assenza",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({
+	            	"factory": {
+	            		"type": "string",
+	            		"required": true
+	            	},
+					"id": {
+	            		"type": "string",
+	            		"required": true
+	            	},
+					"requestscausesid": {
+	            		"type": "string",
+	            		"required": true
+	            	},
+					"usersfromid": {
+	            		"type": "number",
+	            		"required": true
+	            	},
+					"datainizio": {
+	            		"type": "date",
+	            		"required": true
+	            	},
+					"orerichieste": {
+	            		"type": "string",
+	            		"required": true
+	            	},
+	            })
+	          },
+			  {
+	            "id": 18,
+	            "name": "getCdcList",
+	            "description": "Leggi centri di costo",
+	            "verb": "GET",
+	            "url": "",
+	            "modelschema": JSON.stringify({				
+					"code": {
+						"type": "string",
+						"required": true,
+						"description":"Cdc code"
+					},
+					"description": {
+						"type": "string",
+						"required": true,
+						"description":"Cdc description"
+					}
+				})
+	          }];
+
+	        for (const s of servicesDirective) {
+	       	
+	          var serviceExist = await Services.findById(s.id);
+	        
+	          if (!serviceExist){
+	          	
+	          	results = await Services.create(s);
+	            //console.log(results)
+	          } else if (serviceExist.name != s.name) {
+	          	results = await serviceExist.updateAttributes({name: s.name});
+	          	console.log('Service updated id =', s.id, ' name =', s.name);
+	          }
+	        }
+	       
+	        // Here specific relation beetween Services and Operations
+	        var OperationsServices = app.models.OperationsServices;
+	        
+	        var opservices = await OperationsServices.find({where:{operationsid:4,servicesid:2}});
+		    if (opservices.length == 0){
+				var inserted = await OperationsServices.create([{operationsid:4,servicesid:2}]);
+		    }
+	 
+		    opservices = await OperationsServices.find({where:{operationsid:5,servicesid:2}});
+		    if (opservices.length == 0){
+				var inserted = 	OperationsServices.create([{operationsid:5,servicesid:2}]);
+		    }
+
+		    opservices = await OperationsServices.find({where:{operationsid:6,servicesid:2}});
+		    if (opservices.length == 0){
+				var inserted = 	OperationsServices.create([{operationsid:6,servicesid:2}]);
+		    }
+      	} 
+      	catch(results) {
+      		throw(results);
+    	}
+  	}
+
+	Services.start = async () => {
+
+	  	try{
+
+		  	var servicesDirective = await Services.find();
+			
+			var errorInModelCreation = false;
+			
+			var methodsToDisplay = [];
+
+			for (const s of servicesDirective) {
+
+		  		let methods;
+		  		let accepts = [];
+		  		let returns;
+		  		let query;
+		  		let body;
+		  		let url;
+
+				if(s.verb=="POST") {
+				   url = s.url;	
+	               methods =  {"create": ["data"]}
+	               query = {}
+	               body = {"data": "{data}"}
+	               accepts = [{arg: 'data', type: [s.name] ,http: {source: 'body'},description:'Refer to Model and Modelschema'}];
+	               returns =  {arg: 'results', type:[s.name],root:true}
+		  		}
+				
+				if(s.verb=="PUT"){
+				   url = "/" + "{id}" + "/" + s.url;
+		  		   methods =  {"updateAttributes": ["id","data"]}
+	               query = {}
+	               body = {"data": "{data}"}
+	               accepts = [{arg: 'id', type:"number",description:'Id of element that you want to delete'},
+	               			  {arg: 'data', type: [s.name] ,http: {source: 'body'},description:'Refer to Model and Modelschema'}];
+	               returns =  {arg: 'results', type:[s.name],root:true}	  			
+		  		}
+
+		  		if(s.verb=="GET"){
+		  		   url = s.url;
+				   methods =  {"find": ["filter"]}
+	               query = {"filter": "{filter}"}
+	               body = {}
+	               accepts = [{arg: 'filter', type: 'string',description:'Insert a where clause to filter data. Example:{"where":{"field":value}}'}];
+	               returns =  {arg: 'results', type:[s.name],root:true} 
+		  		}
+
+		  		if(s.verb=="DELETE"){
+		  		   url = s.url + "/" + "{id}" + "/"; 
+		  		   methods =  {"deleteById": "id"}
+	               query = {}
+	               body = {}
+	               accepts = [{arg: 'id', type:"number",description:'Id of element that you want to delete'}];
+	               returns =  {arg: 'results', type:[s.name],root:true}		  				
+		  		}
+
+		      	var ds = await loopback.createDataSource({
+		      	  name:s.name,		
+		          connector: require("loopback-connector-rest"),
+		          operations: [{
+		            template: {
+		              "method": s.verb,
+		              "url": url,
+		          	  "headers": {
+		                "accepts": "application/json",
+		                "content-type": "application/json"
+		              },
+					   "query": query,
+					   "body": body
+		            },
+		            functions:methods
+		            
+		          }]
+		        });
+
+
+		      	var modelschema = await JSON.parse(s.modelschema);
+		      
+		        var obj = {
+		          "description": s.description,
+				  "base": "PersistedModel",
+				  "plural": s.name
+				}
+
+	  			var config = {dataSource:ds,public:false}
+
+			    var model = await ds.createModel(s.name,modelschema,obj); 
+
+			    //Add decorator and special methods here
+
+			    var exposed = await app.model(model,config);			
+
+				if(await Services.addEndpoint(s.name,url,s.verb,model,accepts,returns,s.description)){
+					
+					methodsToDisplay.push(s.name);
+				}
+		    }
+		    console.log('Services methodsToDisplay: ' + methodsToDisplay);
+			methodsHelper.disableAllExcept(Services, methodsToDisplay);  
+
+			var Installation = app.models.Installation;
+			//var installation = await Installation.generateLbServices();
+
+			return methodsToDisplay;
+
+	  	}catch(results){
+	  		throw(results);
+	  	}
+	}
+	
+	Services.addEndpoint = async (name,url,method,model,accepts,returns,description) => {
+
+		let path = "/" + name + '/' ;
+
+		if(method=="PUT") {
+			path  =  "/" + ":id" + "/" + name + '/';	
+		}
+		if(method=="DELETE"){
+  		 	path  =   "/" + name + '/' + ":id" + '/' ; 			
+  		} 
+			
+		Services[name] = async(query,id,data) => {
+
+	    	if(method=="POST"){
+			    return await model.invoke({data:query});
+	  		}
+			
+			if(method=="PUT") {
+				var data = JSON.parse(query);	
+				return await model.invoke({id:id,data:data});		  			
+	  		}
+
+	  		if(method=="GET"){
+				var properties = JSON.stringify(model.definition.properties);
+
+				var where = {};
+				if(query){
+					where = JSON.parse(query);
+				}
+				var results = await model.invoke({filter:where});
+				return results;
+	  		}
+
+	  		if(method=="DELETE"){
+	  		 	return await model.invoke(id);		  				
+	  		} 
+	    };
+
+	    Services.remoteMethod(
+	      name, 
+	      {
+	      	http: {path:path ,verb: method},
+	        accepts: accepts, // or whatever you need...
+	        returns: returns, // whatever it returns...
+	        description: description
+	      }
+	    );
+
+	    return true;
+  	};
+
+};

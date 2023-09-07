@@ -1,0 +1,40 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Gestisci associazioni connettori"></page-title>
+
+<div class="panel panel-default">
+	
+	<div class="panel-body">	
+
+		
+		<div class="panel-body" ng-show="connectors.length > 0">		
+
+			<table class="table table-striped table-bordered" id="showalarmtype">
+				<thead>
+					<tr >
+						<th>Identificativo</th>
+						<th>Nome</th>
+						<th>Gateway</th>
+						
+						<th class="text-center">Edita Associazione</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in connectors">
+						<td>{{row.id}}</td>
+						<td>{{row.name}}</td>
+						<td>{{row.gatewayId}}</td>
+						
+						<td class="text-center">
+							<button type="button" ng-click="editConnectorSettings(row)" class="btn btn-icon btn-success"><span class="fa fa-pencil"></span></button>
+						</td>						
+					</tr>
+				
+				</tbody>
+				
+			</table>
+
+			
+			
+		</div>
+	</div>
+</div>

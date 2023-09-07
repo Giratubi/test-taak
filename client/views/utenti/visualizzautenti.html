@@ -1,0 +1,56 @@
+
+
+
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Visualizzazione di tutti gli utenti registrati"></page-title>
+
+<div class="panel panel-default datatableresp panelblue">
+	
+	<div class="panel-body">		
+
+		<table class="table table-striped table-bordered" id="showusers">
+			<thead>
+				<tr >
+					<th></th>
+					<th>Nome</th>
+					<th>Cognome</th>
+					<th>Azienda</th>
+					<th width="20%">Email</th>
+					<th class="text-center">Stato</th>
+					<th class="text-center">Edita</th>
+					<th class="text-center">Elimina</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in displayCollection">
+					<td class="text-center">
+						<img ng-if="row.pddstorageb.length <=0" src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+						<img ng-if="row.pddstorageb.length > 0" ng-src="api/ImportContainers/users/download/{{row.pddstorageb[0].storagefilename}}" alt="user-image" class="img-circle img-inline userpic-32" width="28" height="28" />
+					</td>
+					<td>{{row.firstname}}</td>
+					<td>{{row.secondname}}</td>
+					<td>{{row.company.name}}</td>
+					<td>{{row.email}}</td>
+					<td class="text-center"><p hidden>{{row.active}}</p>
+						<input type="checkbox" value="{{row.active}}" ng-show="current.id !=row.id" ng-checked="{{row.active}}" ng-click="switchuser(row)" class="iswitch iswitch-secondary">
+					</td>
+					<td class="text-center">
+						<button type="button" ng-click="editUser(row)" class="btn btn-icon btn-success"><span class="fa fa-pencil"></span></button>
+					</td>
+					<td class="text-center">
+						<button type="button" ng-click="deleteUser(row)" class="btn btn-icon btn-red"><span class="fa fa-trash"></span></button>
+					</td>
+				</tr>
+			
+			</tbody>
+			
+		</table>
+
+		
+		
+	</div>
+</div>
+
+
+
+
+

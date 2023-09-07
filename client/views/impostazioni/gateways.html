@@ -1,0 +1,39 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Gestisci associazioni Gateways"></page-title>
+
+<div class="panel panel-default">
+	
+	<div class="panel-body">	
+
+		
+		<div class="panel-body" ng-show="gateways.length > 0">		
+
+			<table class="table table-striped table-bordered" id="showalarmtype">
+				<thead>
+					<tr >
+						<th>Identificativo</th>
+						<th>Nome</th>					
+						
+						<th class="text-center">Edita Associazione</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in gateways">
+						<td>{{row.id}}</td>
+						<td>{{row.name}}</td>
+						
+						
+						<td class="text-center">
+							<button type="button" ng-click="editGatewaySettings(row)" class="btn btn-icon btn-success"><span class="fa fa-pencil"></span></button>
+						</td>						
+					</tr>
+				
+				</tbody>
+				
+			</table>
+
+			
+			
+		</div>
+	</div>
+</div>

@@ -1,0 +1,6 @@
+# we only care about changes to javascript files
+# in the src folder
+forever
+logs
+client
+node_modules

@@ -1,0 +1,1199 @@
+angular.module('pdp',['angularFileUpload']).controller('visualizzaGraficoController', ['$scope', 'AuthService','ModalService','Factory', 'SpinnerService','Users','Pddstorageb','Authentication','$state','FileUploader','ImportContainer','$timeout','inputs','Sensorvalue',
+    	function ($scope, AuthService, ModalService, Factory, SpinnerService,Users,Pddstorageb,Authentication,$state,FileUploader,ImportContainer,$timeout,inputs,Sensorvalue) {
+               
+
+
+
+    	console.log("VISUALIZZA GRAFICO",inputs)
+    	$scope.name = inputs.code;
+
+    	$scope.isTemp = false
+    	$scope.isUmidity = false;
+    	$scope.isSwitch = false;
+
+		$scope.isBalance = false
+
+    	$scope.isFilterClicked = false
+
+    	$scope.data = []
+
+    	$scope.valuesfortable = null
+
+    	var data = []
+
+    	$scope.actualvalue = null
+
+    	initializate(inputs)
+
+
+    	$scope.createPDF = function(){
+
+
+    			console.log("DATONA",$scope.valuesfortable)
+
+    			
+
+    			
+
+    			var hours = []
+
+    		    var values = []
+
+    		    var total = []
+
+    		    for (var d of $scope.valuesfortable){
+
+    		    	var value = Object.keys(d)		    	
+
+    		    	hours.push(d.hour.toString())
+    		    	values.push(d[value[1]].toString())
+    		    	
+    		    }
+
+    		    total.push(hours,values)
+
+    		    console.log("TOTALE",total)
+
+    			var docDefinition = {
+				  content: [
+				    {
+				      layout: 'lightHorizontalLines', // optional
+				      table: {
+				        // headers are automatically repeated if the table spans over multiple pages
+				        // you can declare how many rows should be treated as headers
+				        headerRows: 1,
+				        widths: [ '*', '*' ],
+
+				        body: [
+				          [ 'Ora', 'Valore', ],
+				          [ total[0], total[1]  ],			          				         
+				           
+				        ]
+				      }
+				    }
+				  ]
+				};				
+
+				pdfMake.createPdf(docDefinition).download("datatable.pdf");
+
+    			/*
+
+                html2canvas($('#dataTable'), {
+                              
+                    onrendered: function (canvas) {
+                        var data = canvas.toDataURL("image/svg", 1);
+    					
+                        console.log("DATA",data);
+                        
+                        var docDefinition = {
+                            scale: 10,
+                            dpi: 4800, 
+                            quality: 99,
+                            pageSize: 'A4',
+                            pageMargins: [ 10, 10, 10, 10 ],
+                                content: [{
+                                    image:data,
+                                    fit: [550, 550]
+                                }]                            
+                        };
+                     
+                        pdfMake.createPdf(docDefinition).download("datatable.pdf", function() { 
+    
+                        });
+                    }
+                });*/
+    	}
+
+
+    	function changeEpoch(notValidDate){
+    		console.log("notValidDate",notValidDate);
+    		if(new Date(notValidDate).getFullYear() == 1970){
+				return new Date(notValidDate*1000).getMilliseconds()
+			} else {
+				return new Date(notValidDate/1000).getMilliseconds()
+			}
+    		
+    	}
+
+
+    	function renderData(code,from,to,connectorId){
+    			/*if(from){
+    				from = changeEpoch(Number(from));
+    			}
+    			if(to){
+    				to = changeEpoch(Number(to));
+    			}*/
+			
+    		Sensorvalue.findByDate({code:code,from:from,to:to,connectorid:connectorId}).$promise.then(function(senval) {    
+
+    			console.log("senval",senval);
+
+    			$scope.data = senval
+
+
+
+
+    			if(inputs.sensortype.isgas){
+
+    					var data = [];
+
+    					console.log("DATI GREZZI",$scope.data.results);
+    			
+    					$scope.actualvalue = null
+    					
+
+		    			for(var s of $scope.data.results){
+
+
+		    				var miadata= new Date(Number(s.reciveddate));
+
+
+							
+		    				console.log("miadata",miadata);
+
+		    				const hour = miadata.toLocaleTimeString('it-IT', {
+							  // en-US can be set to 'default' to use user's browser settings
+							  hour: '2-digit',
+							  minute: '2-digit',
+							});
+
+							var obj = {hour:hour,
+									   gas:Number(s.value)}
+
+
+						    data.push(obj)
+
+						}
+						data = data.sort(function(a,b){
+							return a.hour-b.hour
+						})
+
+						console.log('MIEIDATI',data);
+					
+		    			
+		    			$scope.isGas = true
+
+		    			if($scope.isFilterClicked == false){
+
+		    				$("#bar-3").remove();
+		    				$('#gauge-1').remove()
+
+		    				 $scope.actualvalue = data
+
+		    			}
+		          
+		           		 $timeout(function(){
+				           
+		           		 	var renderOptions = {
+							    force: true, // forces redrawing
+							    animate: false // redraws the UI component without animation
+							}
+
+				            // grafico temperature 
+
+				            var dataSource = data;
+				            $scope.gasData = data;				           
+				           	$scope.$apply(() => {
+				            	 $scope.gasData; 
+				            });
+
+				            console.log('MIEIDATI', $scope.gasData);
+				                  
+			              	$("#bar-3").dxChart({
+			                    dataSource: $scope.gasData,
+			                    render:renderOptions,
+			                    commonSeriesSettings: {
+			                      argumentField: "hour"
+			                    },
+			                    series: [
+			                      { valueField: "gas", name: "Gas", color: "#40bbea" },
+			                      
+			                    ],
+			                    argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      },
+			                      visualRange: {
+							        length: 5							        
+							      },
+			                    },
+			                    zoomingMode: "all",
+						        scrollingMode: "all",
+						        scrollBar: {
+						            visible: true,
+
+						        },						        
+							    zoomAndPan: {
+							      argumentAxis: 'both',
+							    },
+			                    tooltip:{
+			                      enabled: true,
+			                      
+
+			                    },
+			                    tooltip:{
+			                      enabled: true,
+			                      customizeText: function () {                         
+			                        return this.value + ' bar' }
+
+			                    },
+			                    title: "Andamento Sensore gas",
+			                    legend: {
+			                      verticalAlignment: "bottom",
+			                      horizontalAlignment: "center"
+			                    },
+			                    commonPaneSettings: {
+			                      border:{
+			                        visible: true,
+			                        right: false
+			                      }    
+			                    }
+			                  });
+
+
+
+
+			                 // temperatura attuale
+			                 console.clear();
+			                 console.table(dataSource);
+			                // console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+
+			                  var gauge = $('#gauge-1').dxCircularGauge({
+			                  	dataSource:  Number($scope.actualvalue.reverse()[0].gas),
+			                  	render:renderOptions,
+			                    scale: {
+			                      startValue: 0,
+			                      endValue: 8192,
+			                      majorTick: {
+			                        tickInterval: 50
+			                      }
+			                    },
+			                    rangeContainer: {
+			                      palette: 'pastel',
+			                      ranges: [
+			                        { startValue: 50, endValue: 90, color: '#8dc63f' },
+			                        { startValue: 90, endValue: 130, color: '#8dc63f' },
+			                        { startValue: 130, endValue: 8192, color: '#8dc63f' },
+			                      ]
+			                    },
+			                    title: {
+			                      text: 'Quantità Gas Attuale',
+			                      font: { size: 28 ,weight: 200}                     
+			                    },
+			                    value: Number(dataSource.reverse()[0].gas)
+			                  }).dxCircularGauge('instance');
+
+		         		},500, false);
+		    	}
+
+    			if(inputs.sensortype.ispression){
+
+    					var data = [];
+
+    					$scope.actualvalue = null
+
+    					console.log("DATI GREZZI",$scope.data.results);
+    			
+
+		    			for(var s of $scope.data.results){
+
+
+		    				var miadata= new Date(Number(s.reciveddate));
+
+
+							
+		    				console.log("miadata",miadata);
+
+		    				const hour = miadata.toLocaleTimeString('it-IT', {
+							  // en-US can be set to 'default' to use user's browser settings
+							  hour: '2-digit',
+							  minute: '2-digit',
+							});
+
+							var obj = {hour:hour,
+									   pression:Number(s.value)}
+
+
+						    data.push(obj)
+
+						}
+						data = data.sort(function(a,b){
+							return a.hour-b.hour
+						})
+
+						console.log('MIEIDATI',data);
+					
+		    			
+		    			$scope.ispression = true
+
+		    			if($scope.isFilterClicked == false){
+
+		    				$("#bar-3").remove();
+		    				$('#gauge-1').remove()
+
+		    				 $scope.actualvalue = data
+
+		    			}
+		          
+		           		 $timeout(function(){
+				           
+		           		 	var renderOptions = {
+							    force: true, // forces redrawing
+							    animate: false // redraws the UI component without animation
+							}
+
+				            // grafico temperature 
+
+				            var dataSource = data;
+				            $scope.pressionData = data;
+				           	$scope.$apply(() => {
+				            	 $scope.pressionData; 
+				            });
+
+				            console.log('MIEIDATI', $scope.pressionData);
+				                  
+			              	$("#bar-3").dxChart({
+			                    dataSource: $scope.pressionData,
+			                    render:renderOptions,
+			                    commonSeriesSettings: {
+			                      argumentField: "hour"
+			                    },
+			                    series: [
+			                      { valueField: "temperature", name: "Pressione", color: "#40bbea" },
+			                      
+			                    ],
+			                     argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      },
+			                      visualRange: {
+							        length: 5							        
+							      },
+			                    },
+			                    zoomingMode: "all",
+						        scrollingMode: "all",
+						        scrollBar: {
+						            visible: true,
+
+						        },						        
+							    zoomAndPan: {
+							      argumentAxis: 'both',
+							    },
+			                    tooltip:{
+			                      enabled: true,			                      
+
+			                    },
+			                    tooltip:{
+			                      enabled: true,
+			                      customizeText: function () {                         
+			                        return this.value + ' bar' }
+
+			                    },
+			                    title: "Andamento Sensore pressione ",
+			                    legend: {
+			                      verticalAlignment: "bottom",
+			                      horizontalAlignment: "center"
+			                    },
+			                    commonPaneSettings: {
+			                      border:{
+			                        visible: true,
+			                        right: false
+			                      }    
+			                    }
+			                  });
+
+
+
+
+			                 // temperatura attuale
+			                 console.clear();
+			                 console.table(dataSource);
+			                // console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+
+			                  var gauge = $('#gauge-1').dxCircularGauge({
+			                  	dataSource:  Number(dataSource.reverse()[0].pression),
+			                  	render:renderOptions,
+			                    scale: {
+			                      startValue: 0,
+			                      endValue: 150,
+			                      majorTick: {
+			                        tickInterval: 10
+			                      }
+			                    },
+			                    rangeContainer: {
+			                      palette: 'pastel',
+			                      ranges: [
+			                        { startValue: 50, endValue: 90, color: '#8dc63f' },
+			                        { startValue: 90, endValue: 130, color: '#ffba00' },
+			                        { startValue: 130, endValue: 150, color: '#cc3f44' },
+			                      ]
+			                    },
+			                    title: {
+			                      text: 'Temperatura Attuale',
+			                      font: { size: 28 ,weight: 200}                     
+			                    },
+			                    value: Number(dataSource.reverse()[0].pression)
+			                  }).dxCircularGauge('instance');
+
+		         		},500, false);
+		    	}
+
+    			if(inputs.sensortype.istemperature){
+
+    					var data = [];
+
+    					$scope.actualvalue = null
+
+    					console.log("DATI GREZZI",$scope.data.results);    					
+
+		    			for(var s of $scope.data.results){
+
+
+		    				var miadata= new Date(Number(s.reciveddate));
+
+
+							
+		    				console.log("miadata",miadata);
+
+		    				const hour = miadata.toLocaleTimeString('it-IT', {
+							  // en-US can be set to 'default' to use user's browser settings
+							  hour: '2-digit',
+							  minute: '2-digit',
+							});
+
+							var obj = {hour:hour,
+									   temperature:Number(s.value)}
+
+
+						    data.push(obj)
+
+						}
+						data = data.sort(function(a,b){
+							return a.hour-b.hour
+						})
+
+						console.log('MIEIDATI',data);
+					
+		    			
+		    			$scope.isTemp = true
+
+		    			if($scope.isFilterClicked == false && $scope.data.results.length > 0){
+
+		    				$("#bar-3").remove();
+		    				$('#gauge-1').remove()
+
+		    				 $scope.actualvalue = data
+
+		    			}
+		          
+		           		 $timeout(function(){
+				           
+		           		 	var renderOptions = {
+							    force: true, // forces redrawing
+							    animate: false // redraws the UI component without animation
+							}
+
+				            // grafico temperature 
+
+				            var dataSource = data;
+
+				            $scope.temperatureData = data;
+
+				            $scope.valuesfortable = data
+				           	$scope.$apply(() => {
+				            	 $scope.temperatureData; 
+				            });
+
+				            
+
+				            console.log('MIEIDATI', $scope.temperatureData);
+				                  
+			              	$("#bar-3").dxChart({
+			                    dataSource: dataSource,
+			                    render:renderOptions,
+			                    commonSeriesSettings: {
+			                      argumentField: "hour"
+			                    },
+			                    series: [
+			                      { valueField: "temperature", name: "Temperatura", color: "#40bbea" },
+			                      
+			                    ],
+			                    argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      },
+			                      visualRange: {
+							        length: 5							        
+							      },
+			                    },
+			                    zoomingMode: "all",
+						        scrollingMode: "all",
+						        scrollBar: {
+						            visible: true,
+
+						        },						        
+							    zoomAndPan: {
+							      argumentAxis: 'both',
+							    },
+			                    tooltip:{
+			                      enabled: true,
+			                      
+
+			                    },
+			                    title: "Andamento Sensore temperatura",
+			                    legend: {
+			                      verticalAlignment: "bottom",
+			                      horizontalAlignment: "center"
+			                    },
+			                    commonPaneSettings: {
+			                      border:{
+			                        visible: true,
+			                        right: false
+			                      }    
+			                    }
+			                  }).dxChart('instance');
+
+
+
+
+			                 // temperatura attuale
+			                 //console.clear();
+			                 //console.table(dataSource);
+			                // console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+			                if($scope.actualvalue){
+			                  var gauge = $('#gauge-1').dxCircularGauge({
+			                  	dataSource:  Number($scope.actualvalue[0].temperature),
+			                  	render:renderOptions,
+			                    scale: {
+			                      startValue: 0,
+			                      endValue: 150,
+			                      majorTick: {
+			                        tickInterval: 10
+			                      }
+			                    },
+			                    rangeContainer: {
+			                      palette: 'pastel',
+			                      ranges: [
+			                        { startValue: 50, endValue: 90, color: '#8dc63f' },
+			                        { startValue: 90, endValue: 130, color: '#ffba00' },
+			                        { startValue: 130, endValue: 150, color: '#cc3f44' },
+			                      ]
+			                    },
+			                    title: {
+			                      text: 'Temperatura Attuale',
+			                      font: { size: 28 ,weight: 200}                     
+			                    },
+			                    value: Number(dataSource.reverse()[0].temperature)
+			                  }).dxCircularGauge('instance');
+			                }
+
+		         		},500, false);
+		    	}
+
+				if(inputs.sensortype.isbalance){
+
+					var data = [];
+
+					$scope.actualvalue = null
+
+					console.log("DATI GREZZI",$scope.data.results);    					
+
+					for(var s of $scope.data.results){
+
+
+						var miadata= new Date(Number(s.reciveddate));
+
+
+						
+						//console.log("miadata",miadata);
+
+						const hour = miadata.toLocaleTimeString('it-IT', {
+						  // en-US can be set to 'default' to use user's browser settings
+						  hour: '2-digit',
+						  minute: '2-digit',
+						});
+
+						var obj = {hour:hour,
+								   weight:Number(s.value)}
+
+
+						data.push(obj)
+
+					}
+					data = data.sort(function(a,b){
+						return a.hour-b.hour
+					})
+
+					console.log('MIEIDATI',data);
+				
+					
+					$scope.isBalance = true
+
+					if($scope.isFilterClicked == false && $scope.data.results.length > 0){
+
+						$("#bar-3").remove();
+						$('#gauge-1').remove()
+
+						 $scope.actualvalue = data
+
+						 console.log("ACTUAL VALUE", $scope.actualvalue)
+
+					}
+			  
+						$timeout(function(){
+					   
+							var renderOptions = {
+							force: true, // forces redrawing
+							animate: false // redraws the UI component without animation
+						}
+
+						// grafico bilancia
+
+						var dataSource = data;
+
+						$scope.balanceData = data;
+
+						$scope.valuesfortable = data
+						   $scope.$apply(() => {
+							 $scope.balanceData; 
+						});
+
+						
+
+						console.log('MIEIDATI', $scope.balanceData);
+							  
+						  $("#bar-3").dxChart({
+							dataSource: dataSource,
+							render:renderOptions,
+							commonSeriesSettings: {
+							  argumentField: "hour"
+							},
+							series: [
+							  { valueField: "weight", name: "Peso", color: "#40bbea" },
+							  
+							],
+							argumentAxis:{
+							  grid:{
+								visible: true
+							  },
+							  visualRange: {
+								length: 5							        
+							  },
+							},
+							zoomingMode: "all",
+							scrollingMode: "all",
+							scrollBar: {
+								visible: true,
+
+							},						        
+							zoomAndPan: {
+							  argumentAxis: 'both',
+							},
+							tooltip:{
+							  enabled: true,
+							  
+
+							},
+							title: "Andamento Sensore Peso",
+							legend: {
+							  verticalAlignment: "bottom",
+							  horizontalAlignment: "center"
+							},
+							commonPaneSettings: {
+							  border:{
+								visible: true,
+								right: false
+							  }    
+							}
+						  }).dxChart('instance');
+
+
+
+
+						 // temperatura attuale
+						 //console.clear();
+						 //console.table(dataSource);
+						// console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+						
+
+						if($scope.actualvalue.length >0){
+						  var gauge = $('#gauge-1').dxCircularGauge({
+							  dataSource:  Number($scope.actualvalue[0].weight),
+							  render:renderOptions,
+							scale: {
+							  startValue: 0,
+							  endValue: 200,
+							  majorTick: {
+								tickInterval: 5
+							  }
+							},
+							rangeContainer: {
+							  palette: 'pastel',
+							  ranges: [
+								{ startValue: 50, endValue: 90, color: '#8dc63f' },
+								{ startValue: 90, endValue: 130, color: '#ffba00' },
+								{ startValue: 130, endValue: 150, color: '#cc3f44' },
+							  ]
+							},
+							title: {
+							  text: 'Peso Attuale',
+							  font: { size: 28 ,weight: 200}                     
+							},
+							value: Number(dataSource.reverse()[0].weight)
+						  }).dxCircularGauge('instance');
+						}
+
+					 },500, false);
+			}
+
+		    	if(inputs.sensortype.isvoltage){
+
+    					var data = [];
+
+    					console.log("DATI GREZZI",$scope.data.results);
+    			
+
+    					
+
+		    			for(var s of $scope.data.results){
+
+
+		    				var miadata= new Date(Number(s.reciveddate));
+
+
+							
+		    				console.log("miadata",miadata);
+
+		    				const hour = miadata.toLocaleTimeString('it-IT', {
+							  // en-US can be set to 'default' to use user's browser settings
+							  hour: '2-digit',
+							  minute: '2-digit',
+							});
+
+							var obj = {hour:hour,
+									   voltage:Number(s.value)}
+
+
+						    data.push(obj)
+
+						}
+						data = data.sort(function(a,b){
+							return a.hour-b.hour
+						})
+
+						console.log('MIEIDATI',data);
+					
+		    			
+		    			$scope.isVoltage = true
+
+		    			$("#bar-3").remove();
+		    			$('#gauge-1').remove()
+		          
+		           		 $timeout(function(){
+				           
+		           		 	var renderOptions = {
+							    force: true, // forces redrawing
+							    animate: false // redraws the UI component without animation
+							}
+
+				            // grafico temperature 
+
+				            var dataSource = data;
+				            $scope.voltageData = data;
+				            $scope.valuesfortable = data ;
+				           	$scope.$apply(() => {
+				            	 $scope.voltageData; 
+				            });
+
+				            console.log('MIEIDATI', $scope.voltageData);
+				                  
+			              	$("#bar-3").dxChart({
+			                    dataSource: dataSource,
+			                    render:renderOptions,
+			                    commonSeriesSettings: {
+			                      argumentField: "hour"
+			                    },
+			                    series: [
+			                      { valueField: "voltage", name: "Voltaggio", color: "#40bbea" },
+			                      
+			                    ],
+			                    argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      }
+			                    },
+			                    tooltip:{
+			                      enabled: true,
+			                      customizeText: function () {                         
+			                        return this.value + ' C°' }
+
+			                    },
+			                    title: "Andamento Sensore Voltaggio ultime 5 ore",
+			                    legend: {
+			                      verticalAlignment: "bottom",
+			                      horizontalAlignment: "center"
+			                    },
+			                    commonPaneSettings: {
+			                      border:{
+			                        visible: true,
+			                        right: false
+			                      }    
+			                    }
+			                  });
+
+
+
+
+			                 // temperatura attuale
+			                 console.clear();
+			                 console.table(dataSource);
+			                // console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+
+			                  var gauge = $('#gauge-1').dxCircularGauge({
+			                  	dataSource:  Number(dataSource.reverse()[0].voltage),
+			                  	render:renderOptions,
+			                    scale: {
+			                      startValue: 0,
+			                      endValue: 6000,
+			                      majorTick: {
+			                        tickInterval: 500
+			                      }
+			                    },
+			                    rangeContainer: {
+			                      palette: 'pastel',
+			                      ranges: [
+			                        { startValue: 50, endValue: 3000, color: '#8dc63f' },
+			                        { startValue: 3000, endValue: 5000, color: '#ffba00' },
+			                        { startValue: 5000, endValue: 6000, color: '#cc3f44' },
+			                      ]
+			                    },
+			                    title: {
+			                      text: 'Voltaggio Attuale',
+			                      font: { size: 28 ,weight: 200}                     
+			                    },
+			                    value: Number(dataSource.reverse()[0].voltage)
+			                  }).dxCircularGauge('instance');
+
+		         		},500, false);
+		    	}
+
+    			if(inputs.sensortype.isumidity){
+
+    					var data = [];
+
+    					console.log("DATI GREZZI",$scope.data.results);
+
+    					$scope.actualvalue = null
+    			
+		    			for(var s of $scope.data.results){
+
+
+		    				var miadata= new Date(Number(s.reciveddate));
+
+		    				console.log("miadata",miadata);
+
+		    				const hour = miadata.toLocaleTimeString('it-IT', {
+							  // en-US can be set to 'default' to use user's browser settings
+							  hour: '2-digit',
+							  minute: '2-digit',
+							});
+
+							var obj = {hour:hour,
+									   umidity:Number(s.value)}
+
+						    data.push(obj)
+
+						}
+
+						data = data.sort(function(a,b){
+							return a.hour-b.hour
+						})
+
+						console.log('MIEIDATI',data);
+					
+		    			
+		    			$scope.isUmidity = true
+
+		    			if($scope.isFilterClicked == false){
+
+		    				$("#bar-3").remove();
+		    				$('#gauge-1').remove()
+
+		    				 $scope.actualvalue = data
+
+		    			}
+		    			
+		          
+		           		 $timeout(function(){
+				           
+		           		 	var renderOptions = {
+							    force: true, // forces redrawing
+							    animate: false // redraws the UI component without animation
+							}
+
+				            // grafico temperature 
+
+				            var dataSource = data;
+				            	$scope.actualvalue = data
+				            $scope.umidityData = data;
+				            $scope.valuesfortable = data
+				           	$scope.$apply(() => {
+				            	 $scope.umidityData; 
+				            });
+
+				            //console.log('MIEIDATI', $scope.umidityData);
+				                  
+			              	$("#bar-3").dxChart({
+			                    dataSource: $scope.umidityData,
+			                    render:renderOptions,
+			                    commonSeriesSettings: {
+			                      argumentField: "hour"
+			                    },
+			                    series: [
+			                      { valueField: "umidity", name: "Umidità", color: "#40bbea" },
+			                      
+			                    ],
+			                    argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      },
+			                      visualRange: {
+							        length: 5							        
+							      },
+			                    },
+			                    zoomingMode: "all",
+						        scrollingMode: "all",
+						        scrollBar: {
+						            visible: true,
+
+						        },						        
+							    zoomAndPan: {
+							      argumentAxis: 'both',
+							    },
+			                    tooltip:{
+			                      enabled: true,
+			                      customizeText: function () {                         
+			                        return this.value + ' %' }
+
+			                    },
+			                    title: "Andamento Sensore umidità",
+			                    legend: {
+			                      verticalAlignment: "bottom",
+			                      horizontalAlignment: "center"
+			                    },
+			                    commonPaneSettings: {
+			                      border:{
+			                        visible: true,
+			                        right: false
+			                      }    
+			                    }
+			                  });
+
+
+			                 // temperatura attuale
+			                 //console.clear();
+			                 //console.table(dataSource);
+			                // console.log("MIA TEMPERATURA ATTUALE",Number(dataSource.reverse()[0].temperature));
+
+
+			                  var gauge = $('#gauge-1').dxCircularGauge({
+			                  	dataSource:  Number($scope.actualvalue.reverse()[0].umidity),
+			                  	render:renderOptions,
+			                    scale: {
+			                      startValue: -150,
+			                      endValue: 150,
+			                      majorTick: {
+			                        tickInterval: 10
+			                      }
+			                    },
+			                    rangeContainer: {
+			                      palette: 'pastel',
+			                      ranges: [
+			                        { startValue: 50, endValue: 90, color: '#8dc63f' },
+			                        { startValue: 90, endValue: 130, color: '#ffba00' },
+			                        { startValue: 130, endValue: 150, color: '#cc3f44' },
+			                      ]
+			                    },
+			                    title: {
+			                      text: 'Umidità Attuale',
+			                      font: { size: 28 ,weight: 200}                     
+			                    },
+			                    value: Number(dataSource.reverse()[0].umidity)
+			                  }).dxCircularGauge('instance');
+
+		         		},500, false);
+
+	    		}
+
+    			if(inputs.sensortype.isonoff == true){
+
+    				$scope.actualvalue = null
+
+    				for(var s of $scope.data.results){
+
+    					console.log("new Date(s.reciveddate", Math.round(+new Date(s.reciveddate)/1000))
+
+    					var obj = {hour:new Date(Number(s.reciveddate)),
+    							   on:s.value,
+    							   off:s.value}
+
+
+    				    data.push(obj)
+    				}
+
+	    			$scope.isSwitch = true;
+
+	    			if($scope.isFilterClicked == false){
+
+	    				$("#bar-5").remove()
+
+	    				$scope.actualvalue = data;
+
+	    			}
+
+	    			$timeout(function(){
+
+	    				//console.log("data",data)
+
+	    				  $scope.valuesfortable = data
+		    		
+		                  
+		                  $("#bar-5").dxChart({
+		                    dataSource: data,
+		                    commonSeriesSettings: {
+		                      argumentField: "hour"
+		                    },
+		                    series: [
+		                      { valueField: "on", name: "Stato Attivo", color: "#118f11", type: 'bar' },
+		                      { valueField: 'off', name: 'Stato Disattivato' ,color: "#c41919", type: 'bar'},
+		      
+
+		                      
+		                    ],
+		                     argumentAxis:{
+			                      grid:{
+			                        visible: true
+			                      },
+			                      visualRange: {
+							        length: 5							        
+							      },
+			                    },
+			                zoomingMode: "all",
+						    scrollingMode: "all",
+						    scrollBar: {
+					            visible: true,
+
+					        },						        
+						    zoomAndPan: {
+						      argumentAxis: 'both',
+						    },
+		                    tooltip:{
+		                      enabled: true,
+		                    },
+		                    title: "Andamento Sensore posizione",
+		                    legend: {
+		                      verticalAlignment: "bottom",
+		                      horizontalAlignment: "center"
+		                    },
+		                    commonPaneSettings: {
+		                      border:{
+		                        visible: true,
+		                        right: false
+		                      }    
+		                    }
+		                  });
+		            },500, false);      
+	    		
+	    		}
+
+    		}) 
+			console.log("query",{code:code,from:from,to:to,connectorid:connectorId});
+    	}
+
+    	function initializate(inputs){
+
+    		
+
+
+    		// data e orario odierna to timestamp e il from è un ora in meno del to
+
+    		/*var to = Math.round(+new Date()/1000);
+
+    		var tempTo = new Date(to * 1000)    		
+
+    		var tempFrom = tempTo.setHours(tempTo.getHours() - 1);
+
+    		var from = Math.round(+new Date(tempFrom)/1000);*/
+
+    		var tempto = new Date()
+
+    		var tomod = tempto.setHours(tempto.getHours() - 3);
+
+    		var from = Number(tomod)
+
+    		var to = Number(new Date())
+
+
+
+    		renderData(inputs.code,from,to,inputs.connectorId);
+    	
+
+
+    		
+
+    	}
+
+
+
+
+    	$scope.filterValues = function(){  
+
+    			// Controlla i campi
+
+    			$scope.isFilterClicked = true;
+
+    			if(!$scope.dateFrom){
+
+    				return;
+    			}
+    			if(!$scope.dateTo){
+    				return;
+    			}
+    			if(!$scope.hourFrom){
+    				return;
+    			}
+    			if(!$scope.hourTo){
+    				return;
+    			}
+
+    			$scope.dateFrom.setHours($scope.hourFrom.getHours()); 
+    			$scope.dateFrom.setMinutes($scope.hourFrom.getMinutes());
+
+    			$scope.dateTo.setHours($scope.hourTo.getHours()); 
+    			$scope.dateTo.setMinutes($scope.hourTo.getMinutes());
+    			
+
+    			//var from = Math.round(+new Date($scope.dateFrom)/1000)
+    			//var to = Math.round(+new Date($scope.dateTo)/1000)
+
+    			var from = Number(new Date($scope.dateFrom))
+    			var to = Number(new Date($scope.dateTo))
+
+
+    			console.log("from",from)
+
+    			console.log("to",to)
+
+    			renderData(inputs.code,from,to,inputs.connectorId);
+    	
+
+    	}
+
+
+
+}])

@@ -1,0 +1,62 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+  style="display: block;overflow-y: auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Associazione Connettore {{connectorname}} associato al gateway {{gateway}}</h4>
+            </div>
+
+            <div class="modal-body">
+
+
+            	<div class="row">
+					<div class="col-md-12">
+						<div class="demo-form-wrapper">
+							<form class="form form-horizontal form-padding" >
+								
+								<div class="form-group">
+								
+                                    <div class="col-sm-10 col-xs-12">
+                                        <div class="multilabel">Seleziona un nuovo Gateways a cui associare il connettore</div>
+                                        <div class="input-with-icon">
+                                            <select id="selectAuthor" 
+                                                    class="form-control"
+                                                    ng-options="gat.name for gat in gateways"
+                                                    ng-model="gatewayselected">
+                                            </select>
+                                            <span class="icon icon-edit input-icon"></span>
+                                        </div>
+                                    </div>
+								</div>
+								         
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="form-control-3"></label>
+									
+									<div class="col-sm-5 text-center">	
+										<button  ng-click="updateConnector()" class="btn btn-primary btn-block" style="margin-top: 50px;
+										">Aggiorna Connettore</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+                
+            </div>
+
+            <toaster-container 
+			    toaster-options="{'time-out': 3000, 'toaster-id': 'error-toaster-container', 'close-button': true, 
+			    'position-class': 'toast-center', 'time-out': 0, 'mouseover-timer-stop': false }"></toaster-container>
+        </div>
+        <div class="modal-footer">
+        	
+			
+			
+        </div>
+    </div>
+</div>
+

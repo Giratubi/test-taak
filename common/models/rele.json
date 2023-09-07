@@ -1,0 +1,45 @@
+{
+  "name": "Rele",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string",
+      "index":true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "relevalues": {
+      "type": "hasMany",
+      "model": "Relevalue",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "sensorvaluelimits": {
+      "type": "hasMany",
+      "model": "Sensorvaluelimit",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "Sensorvaluelimitrele"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

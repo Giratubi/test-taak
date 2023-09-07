@@ -1,0 +1,66 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+  style="display: block;overflow-y: auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Imposta allarme per {{name}}</h4>
+            </div>
+
+            <div class="modal-body">
+
+
+            	<div class="row">
+					<div class="col-md-12">
+						<div class="demo-form-wrapper">
+							<form class="form form-horizontal form-padding" >
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="form-control-3"></label>
+									<div class="col-sm-12">	
+										<div class="col-sm-6 col-xs-12" >
+										    <div class="multilabel">Stato</div>
+										    <div class="input-with-icon">
+												<input type="checkbox" value="{{paramodel.value}}" ng-checked="paramodel.value" ng-model="paramodel.value" class="iswitch iswitch-secondary">
+											</div>										    
+										</div>
+										
+										
+									</div>
+								</div>
+								         
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="form-control-3"></label>
+									<div class="col-sm-4 text-center" ng-show="hasLimits == true" style="display: inline-flex;">
+										<button ng-show="hasLimits == true" ng-click="updateSensorAlarm()" class="btn btn-primary btn-block" style="margin-top: 50px; margin-right: 10px;
+										">Aggiorna Allarme</button>
+										<button ng-show="hasLimits == true" ng-click="deleteSensorAlarm()" class="btn btn-primary btn-block" style="margin-top: 50px;
+										">Elimina Allarme</button>
+									</div>
+									<div class="col-sm-4 text-center" ng-show="hasLimits == false">
+										<button ng-show="hasLimits == false" ng-click="createSensorAlarm()" class="btn btn-primary btn-block" style="margin-top: 50px;
+										">Crea Allarme</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+                
+            </div>
+
+            <toaster-container 
+			    toaster-options="{'time-out': 3000, 'toaster-id': 'error-toaster-container', 'close-button': true, 
+			    'position-class': 'toast-center', 'time-out': 0, 'mouseover-timer-stop': false }"></toaster-container>
+        </div>
+        <div class="modal-footer">
+        	
+			
+			
+        </div>
+    </div>
+</div>
+

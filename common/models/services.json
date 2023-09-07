@@ -1,0 +1,60 @@
+{
+  "name": "Services",
+  "description": "External Services called to enter exit data",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "required": true,
+      "description": "The id of the service"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "The name of the service"
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "description": "The description of the service"
+    },
+    "verb": {
+      "type": "string",
+      "required": true,
+      "description": "The verb of the service(GET,POST,PUT,DELETE)"
+    },
+    "url": {
+      "type": "string",
+      "description": "The url of the service"
+    },
+    "modelschema": {
+      "type": "string",
+      "required": true,
+      "description": "The modelschema of the data exchange",
+      "oracle": {
+        "columnName": "MODELSCHEMA",
+        "dataType": "NCLOB"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "operations": {
+      "type": "hasMany",
+      "model": "Operations",
+      "foreignKey": "servicesid",
+      "options": {
+        "disableInclude": false
+      },
+      "through": "OperationsServices",
+      "keyThrough": "servicesid"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

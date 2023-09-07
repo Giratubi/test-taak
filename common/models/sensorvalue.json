@@ -1,0 +1,52 @@
+{
+  "name": "Sensorvalue",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "code": {
+      "type": "string",
+      "index":true
+    },
+    "value": {
+      "type": "string"
+    },
+    "reciveddate": {
+      "type": "string",
+      "index":true
+    },
+    "creationdate": {
+      "type": "string",
+      "index":true
+    },
+    "state": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "connector": {
+      "type": "belongsTo",
+      "model": "Connector",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "sensortype": {
+      "type": "belongsTo",
+      "model": "Sensortype",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

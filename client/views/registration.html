@@ -1,0 +1,106 @@
+
+
+<div class="login-container">
+
+	<div class="row">
+
+		<div class="col-sm-12 login-div">
+
+		
+
+			<!-- Errors container -->
+			<div class="errors-container">
+
+				
+			</div>
+
+			<!-- Add class "fade-in-effect" for login form effect -->
+			<form  ng-submit="registration()" class="login-form fade-in-effect in">
+
+				<div class="login-header">
+					<a href="#/app/dashboard-variant-1" class="logo">
+						<img src="assets/images/logo.png" alt="" width="200" />
+						
+					</a>
+
+					<p>Registrazione utente TAAAK</p>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<select id="selectAuthor" 
+									class="form-control input-dark"
+									ng-options="user.type for user in usertype"
+									ng-model="usertypeselected">
+							</select>
+						</div>						
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="firstname">Nome</label>
+							<input type="text" class="form-control input-dark" ng-model="firstname" name="firstname" id="firstname" autocomplete="off" />
+						</div>						
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="secondname">Cognome</label>
+							<input type="text" class="form-control input-dark" ng-model="secondname" name="secondname" id="secondname" autocomplete="off" />
+						</div>						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="control-label" for="email">Email</label>
+							<input type="text" class="form-control input-dark" ng-model="email" name="email" id="email" autocomplete="off" />
+						</div>						
+					</div>
+					<div class="col-sm-6" ng-show="usertypeselected.id == 0">
+						<div class="form-group">
+							<label class="control-label" for="fiscalcode">Codice Fiscale</label>
+							<input type="text" class="form-control input-dark" ng-model="fiscalcode" name="fiscalcode" id="fiscalcode" autocomplete="off" />
+						</div>						
+					</div>					
+					<div class="col-sm-3" ng-show="usertypeselected.id == 1">
+						<div class="form-group">
+							<label class="control-label" for="companyname">Nume Azienda</label>
+							<input type="text" class="form-control input-dark" ng-model="companyname" name="companyname" id="companyname" autocomplete="off" />
+						</div>						
+					</div>
+					<div class="col-sm-3" ng-show="usertypeselected.id == 1">
+						<div class="form-group">
+							<label class="control-label" for="vatnumber">P.iva azienda</label>
+							<input type="text" class="form-control input-dark" ng-model="vatnumber" name="vatnumber" id="vatnumber" autocomplete="off" />
+						</div>						
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="form-group">
+							<label class="control-label" for="passwd">Password</label>
+							<input type="password" class="form-control input-dark" ng-model="password" name="passwd" id="passwd" autocomplete="off" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-dark  btn-block text-left">
+								<i class="fa-lock"></i>
+								Registrati
+							</button>
+							<span class="text-danger" style="color: #fd5252;    font-size: 20px;"> {{ error }} </span>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,311 @@
+
+<nav class="navbar user-info-navbar" ng-class="{'mobile-is-visible': layoutOptions.userInfoNavVisible}" ng-click="mobileUserInfoToggle()" role="navigation"><!-- User Info, Notifications and Menu Bar -->
+
+	<!-- Left links for user info navbar -->
+	<ul class="user-info-menu left-links list-inline list-unstyled">
+
+		<li class="hidden-sm hidden-xs">
+			<a href="" ng-click="sidebarToggle()">
+				<i class="fa-bars"></i>
+			</a>
+		</li>
+
+		<li class="dropdown hover-line" on-toggle="updatePsScrollbars()" style="display: none">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown">
+				<i class="fa-envelope-o"></i>
+				<span class="badge badge-green">15</span>
+			</a>
+
+			<ul class="dropdown-menu messages" on-toggle="updatePsScrollbars()">
+				<li>
+					
+					<ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+
+						<li class="active"><!-- "active" class means message is unread -->
+							<a href="">
+								<span class="line">
+									<strong>Luc Chartier</strong>
+									<span class="light small">- yesterday</span>
+								</span>
+
+								<span class="line desc small">
+									This ain’t our first item, it is the best of the rest.
+								</span>
+							</a>
+						</li>
+
+						<li class="active">
+							<a href="">
+								<span class="line">
+									<strong>Salma Nyberg</strong>
+									<span class="light small">- 2 days ago</span>
+								</span>
+
+								<span class="line desc small">
+									Oh he decisively impression attachment friendship so if everything.
+								</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="">
+								<span class="line">
+									Hayden Cartwright
+									<span class="light small">- a week ago</span>
+								</span>
+
+								<span class="line desc small">
+									Whose her enjoy chief new young. Felicity if ye required likewise so doubtful.
+								</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="">
+								<span class="line">
+									Sandra Eberhardt
+									<span class="light small">- 16 days ago</span>
+								</span>
+
+								<span class="line desc small">
+									On so attention necessary at by provision otherwise existence direction.
+								</span>
+							</a>
+						</li>
+
+						<!-- Repeated -->
+
+						<li class="active"><!-- "active" class means message is unread -->
+							<a href="">
+								<span class="line">
+									<strong>Luc Chartier</strong>
+									<span class="light small">- yesterday</span>
+								</span>
+
+								<span class="line desc small">
+									This ain’t our first item, it is the best of the rest.
+								</span>
+							</a>
+						</li>
+
+						<li class="active">
+							<a href="">
+								<span class="line">
+									<strong>Salma Nyberg</strong>
+									<span class="light small">- 2 days ago</span>
+								</span>
+
+								<span class="line desc small">
+									Oh he decisively impression attachment friendship so if everything.
+								</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="">
+								<span class="line">
+									Hayden Cartwright
+									<span class="light small">- a week ago</span>
+								</span>
+
+								<span class="line desc small">
+									Whose her enjoy chief new young. Felicity if ye required likewise so doubtful.
+								</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="">
+								<span class="line">
+									Sandra Eberhardt
+									<span class="light small">- 16 days ago</span>
+								</span>
+
+								<span class="line desc small">
+									On so attention necessary at by provision otherwise existence direction.
+								</span>
+							</a>
+						</li>
+
+					</ul>
+
+				</li>
+
+				<li class="external">
+					<a href="mailbox-main.html">
+						<span>All Messages</span>
+						<i class="fa-link-ext"></i>
+					</a>
+				</li>			
+			</ul>
+		</li>
+
+		<li class="dropdown hover-line" style="display: none">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown">
+				<i class="fa-bell-o"></i>
+				<span class="badge badge-purple">{{alarmsnav.length}}</span>
+			</a>
+
+			<ul class="dropdown-menu notifications">
+				<li class="top">
+					<p class="small">
+						
+						Ci sono <strong>{{alarmsnav.length}}</strong> allarmi attivi.
+					</p>
+				</li>
+
+				<li>
+					<ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+						
+						
+						
+						
+						
+						
+						<li class="notification-danger" ng-repeat="alarm in alarmsnav">
+							<a href="">
+								<i class="fa-warning"></i>
+								
+								<span class="line">
+									Azienda : {{alarm.gateway.companies[0].name}}
+								</span>
+								
+								<span class="line small time">
+									<strong>{{alarm.alarmtype.name}}, </strong> {{alarm.alarmtype.description}}
+								</span>
+							</a>
+						</li>
+						
+						
+						
+						
+					</ul>
+				</li>
+
+				<li class="external">
+					<a href="" ng-click="goToAlarms()">
+						<span>Tutti gli allarmi</span>
+						<i class="fa-link-ext"></i>
+					</a>
+				</li>			
+			</ul>
+		</li>
+
+		<!-- Added in v1.2 -->
+		<li class="dropdown hover-line language-switcher" style="display: none">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown">
+				<img src="assets/images/flags/flag-uk.png" alt="flag-uk" />
+				English
+			</a>
+
+			<ul class="dropdown-menu languages">
+				<li>
+					<a href="#">
+						<img src="assets/images/flags/flag-al.png" alt="flag-al" />
+						Shqip
+					</a>
+				</li>
+				<li class="active">
+					<a href="#">
+						<img src="assets/images/flags/flag-uk.png" alt="flag-uk" />
+						English
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/images/flags/flag-de.png" alt="flag-de" />
+						Deutsch
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/images/flags/flag-fr.png" alt="flag-fr" />
+						Fran&ccedil;ais
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/images/flags/flag-br.png" alt="flag-br" />
+						Portugu&ecirc;s
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/images/flags/flag-es.png" alt="flag-es" />
+						Espa&ntilde;ol
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		
+
+	</ul>
+
+
+	<!-- Right links for user info navbar -->
+	<ul class="user-info-menu right-links list-inline list-unstyled">
+
+		<li class="fullscreen" >
+			<a href="" ng-click="goToCharts()" title="Charts">
+				<span class="fa fa-bar-chart-o">
+			</a>
+		</li>
+		<li class="fullscreen" ng-show="isFullscreenSupported">
+			<a href="" ng-click="goFullscreen()" title="Fullscreen">
+				<i ng-class="{'fa-expand': ! isFullscreen, 'fa-compress': isFullscreen == true}"></i>
+			</a>
+		</li>
+
+		
+
+	<!--<li class="search-form" ng-init="isFocused = false" ng-class="{focused: isFocused}">
+
+			<form name="userinfo_search_form" ng-submit="userinfo_search_form.$valid" novalidate>
+				<input type="text" name="s" class="form-control search-field" placeholder="Type to search..." ng-blur="isFocused = false;" required />
+
+				<button type="submit" class="btn btn-link" ng-click="isFocused = ! isFocused; setFocusOnSearchField();">
+					<i class="linecons-search"></i>
+				</button>
+			</form>
+
+		</li>-->
+
+		<li class="dropdown user-profile">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown">
+				<img ng-if="user.pddstorageb.length <=0" src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+				<img ng-if="user.pddstorageb.length > 0" ng-src="api/ImportContainers/users/download/{{user.pddstorageb[0].storagefilename}}" alt="user-image" class="img-circle img-inline userpic-32" width="28" height="28" />
+				<span>
+					{{user.firstname}} {{user.secondname}}
+					<i class="fa-angle-down"></i>
+				</span>
+			</a>
+
+			<ul class="dropdown-menu user-profile-menu list-unstyled">
+				
+				
+				<li style="display: none">
+					<a href="#profile">
+						<i class="fa-user"></i>
+						Profile
+					</a>
+				</li>
+				
+				<li class="last">
+					<a href="#" ng-click="logout()">
+						<i class="fa-lock"></i>
+						Logout
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<!--<li>
+			<a href="" ng-click="chatToggle();" data-toggle="chat">
+				<i class="fa-comments-o"></i>
+			</a>
+		</li>-->
+
+	</ul>
+
+</nav>

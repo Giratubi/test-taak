@@ -1,0 +1,157 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models",
+      "../node_modules/loopback-component-passport/lib/models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins",
+      "../node_modules/loopback-redis-cache"
+    ]
+  },
+  "UserIdentity": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "UserCredential": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "User": {
+    "dataSource": "db",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "Users": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Operations": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Factory": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "OperationsCategory": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "UsersOperations": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Messages": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "UsersOperatiosMessages": {
+    "dataSource": "mariaDb",
+    "public": false
+  },
+  "Authentication": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Services": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "OperationsServices": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "emailDs"
+  },
+  "ImportContainer": {
+    "dataSource": "container",
+    "public": true
+  },
+  "Pddstorageb": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "installation": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "AuthenticationsOperations": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Gateway": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Sensorvalue": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Sensortype": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Connector": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Company": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Companytype": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Gatewaycompany": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Gatewayspositions": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Sensorvaluelimit": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Rele": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Relevalue": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Sensorvaluelimitrele": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Gatewayradius": {
+    "dataSource": "mariaDb",
+    "public": true
+  },
+  "Sensorcustomname": {
+    "dataSource": "mariaDb",
+    "public": true
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "Sensortype",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true
+    },
+    "name": {
+      "type": "string",
+      "index":true
+    },
+    "description": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string",
+      "index":true
+    },
+    "unitmeasure": {
+      "type": "string"
+    },
+    "settings": {
+      "type": "string"
+    },
+    "istemperature": {
+      "type": "boolean"
+    },
+    "isumidity": {
+      "type": "boolean"
+    },
+    "isonoff": {
+      "type": "boolean"
+    },
+    "ispression": {
+      "type": "boolean"
+    },
+    "isvoltage": {
+      "type": "boolean"
+    },
+    "isgas": {
+      "type": "boolean"
+    },
+    "isbalance": {
+      "type": "boolean"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sensorvalues": {
+      "type": "hasMany",
+      "model": "Sensorvalue",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

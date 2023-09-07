@@ -1,0 +1,60 @@
+{
+  "name": "Company",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string",
+      "index":true
+    },
+    "description": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "vatnumber": {
+      "type": "string",
+      "index":true
+    },
+    "email": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "gateways": {
+      "type": "hasMany",
+      "model": "Gateway",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "Gatewaycompany"
+    },
+    "users": {
+      "type": "hasMany",
+      "model": "Users",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "companytype": {
+      "type": "belongsTo",
+      "model": "Companytype",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

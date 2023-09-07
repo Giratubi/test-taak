@@ -1,0 +1,54 @@
+{
+  "name": "OperationsCategory",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {}
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "required": true,
+      "description": "The id of OperationsCategory row"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "The category name"
+    },
+    "order": {
+      "type": "number",
+      "required": true,
+      "description": "The category name"
+    },
+    "url": {
+      "type": "string",
+      "description": "The category url"
+    },
+    "icon": {
+      "type": "string",
+      "required": true,
+      "description": "The category icon"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "operations": {
+      "type": "hasMany",
+      "model": "Operations",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

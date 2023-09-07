@@ -1,0 +1,113 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Inserisi una nuovo tipo di sensore e visualizza lista di tipi sensore a sistema"></page-title>
+
+<div class="panel panel-default datatableresp panelblue">
+	
+	<div class="panel-body">
+		<div class="cratediv">
+			<button class="btn btn-icon btn-success" data-toggle="collapse" data-target="#createalarmtype" aria-expanded="false" aria-controls="createalarmtype" ng-click="toggleIcon()">
+			
+				<i class="fa-plus" id="iconbtn"></i>
+				<span>Nuovo tipo sensore</span>
+			</button>
+		</div>
+
+		<div class="row collapse" id="createalarmtype">
+
+				<form class="form form-horizontal form-padding" ng-submit="createSensorType()">
+								
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="form-control-3"></label>
+					<div class="col-sm-12">	
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel text-white">Nome </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text" ng-model="name" autocomplete="off_">
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel  text-white">Codice </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text"  ng-model="code" autocomplete="off_" >
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel  text-white">Unità di misura </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text"  ng-model="unitmeasure" autocomplete="off_" >
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>						
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="form-control-3"></label>
+					<div class="col-sm-12">	
+						<div class="col-sm-12 col-xs-12">
+						    <div class="multilabel  text-white">Settaggi </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text"  ng-model="settings" autocomplete="off_" >
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-12 col-xs-12">
+						    <div class="multilabel  text-white">Descrizione </div>
+						    <div class="input-with-icon">
+								<textarea id="form-control-2" class="form-control" type="text" ng-model="description" autocomplete="off_" rows="5" style="width: 100%;"></textarea>
+							</div>										    
+						</div>
+						
+					</div>
+				</div>               
+                <div class="form-group paddingTop50">
+					<label class="col-sm-4 control-label" for="form-control-3"></label>
+					<div class="col-sm-4 text-center">					
+
+						<button type="submit" class="btn btn-success btn-icon" ng-disabled="isDisabled">Crea Tipo Sensore</button>
+					</div>
+				</div>
+			</form>
+
+
+
+		</div>
+		<div class="panel-body" ng-show="sensortypes.length > 0">		
+
+			<table class="table table-striped table-bordered" id="showsensortype">
+				<thead>
+					<tr >
+						<th>Nome</th>
+						<th>Codice</th>
+						<th>Unità di misura</th>
+						<th width="20%">Descrizione</th>
+						
+						<th class="text-center">Edita</th>
+						<!--<th class="text-center">Elimina</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in sensortypes">
+						<td>{{row.name}}</td>
+						<td>{{row.code}}</td>
+						<td>{{row.unitmeasure}}</td>
+						<td>{{row.description}}</td>
+						
+						<td class="text-center">
+							<button type="button" ng-click="editSensorType(row)" class="btn btn-icon btn-success"><span class="fa fa-pencil"></span></button>
+						</td>
+						<!--<td class="text-center">
+							<button type="button" ng-click="" class="btn btn-icon btn-red"><span class="fa fa-trash"></span></button>
+						</td>-->
+					</tr>
+				
+				</tbody>
+				
+			</table>
+
+			
+			
+		</div>
+	</div>
+</div>

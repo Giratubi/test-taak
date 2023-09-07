@@ -1,0 +1,11 @@
+node_modules
+
+datasources.json
+
+forever/forever_config.json
+forever/forever_start.bat
+forever/forever_stop.bat
+logs/err.log
+logs/forever.log
+logs/out.log
+client/client-config.js

@@ -1,0 +1,44 @@
+{
+  "name": "Messages",
+  "description": "Operation's message notified to user ",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {
+        "find": "Find a message by where clause"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "description": "Message id"
+    },
+    "text": {
+      "type": "string",
+      "required": true,
+      "description": "Message text"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "messages": {
+      "type": "hasMany",
+      "model": "Messagess",
+      "foreignKey": "messagesid",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      },
+      "through": "UsersOperationsMessages",
+      "keyThrough": "messagesid"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

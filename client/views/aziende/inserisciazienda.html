@@ -1,0 +1,88 @@
+<page-title ng-if="layoutOptions.pageTitles" title="{{pagetitle}}" description="Inserisi una nuova azienda"></page-title>
+
+<div class="panel panel-default">
+	
+	<div class="panel-body">
+
+		<div class="row">
+
+				<form class="form form-horizontal form-padding" ng-submit="createCompany()">
+								
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="form-control-3"></label>
+					<div class="col-sm-12">	
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel">Nome </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text" ng-model="name" autocomplete="off_">
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel">Indirizzo </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text"  ng-model="address" autocomplete="off_" >
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-4 col-xs-12">
+						    <div class="multilabel">P.iva </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text"  ng-model="vatnumber" autocomplete="off_" >
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="form-control-3"></label>
+					<div class="col-sm-12">	
+						<div class="col-sm-6 col-xs-12">
+						    <div class="multilabel">Email </div>
+						    <div class="input-with-icon">
+								<input id="form-control-1" class="form-control" type="text" ng-model="email"  autocomplete="off_">
+								<span class="icon icon-edit input-icon"></span>
+							</div>										    
+						</div>
+						<div class="col-sm-6 col-xs-12">
+						    
+						    <div class="multilabel">Tipo Azienda </div>
+						    <div class="input-with-icon">
+								<select id="selectAuthor" 
+										class="form-control"
+										ng-options="comtyp.name for comtyp in companytype"
+										ng-model="companytypeselected"
+										>
+								</select>
+								<span class="icon icon-edit input-icon"></span>
+							</div>											    
+														    
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="form-control-3"></label>
+					<div class="col-sm-12">	
+						<div class="col-sm-12 col-xs-12">
+						    <div class="multilabel">Descrizione </div>
+						    <div class="input-with-icon">
+								<textarea id="form-control-2" class="form-control" type="text" ng-model="description" autocomplete="off_" rows="5" style="width: 100%;"></textarea>
+							</div>										    
+						</div>
+						
+					</div>
+				</div>               
+                <div class="form-group paddingTop50">
+					<label class="col-sm-4 control-label" for="form-control-3"></label>
+					<div class="col-sm-4 text-center">					
+
+						<button type="submit" class="btn btn-success btn-icon" ng-disabled="isDisabled">Crea Azienda</button>
+					</div>
+				</div>
+			</form>
+
+
+
+		</div>
+	</div>
+</div>

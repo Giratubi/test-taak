@@ -1,0 +1,153 @@
+{
+  "name": "Users",
+  "description": "Application Users",
+  "base": "User",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {
+        "find": "Find a user by where clause",
+        "findById": "Find a user by id",
+        "login": "Login a user with username and password. AccessToken was generated",
+        "logout": "Logout a user and AccessToken released",
+        "deleteById": "Delete user profile in application cause delete all associated entity"
+      }
+    }
+  },
+  "hidden": [
+    "realm",
+    "emailVerified"
+  ],
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "description": "The id of the user"
+    },
+    "activeoperations": {
+      "type": "string",
+      "description": "The JSON string of activeoperations"
+    },
+    "fiscalcode": {
+      "type": "string",
+      "description": "Fiscal code of user"
+    },
+    "messages": {
+      "type": "string",
+      "description": "The JSON of activeMessage"
+    },
+    "roleids": {
+      "type": "string",
+      "description": "The list divided by | of user's role"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "True if active"
+    },
+    "firstname": {
+      "type": "string",
+      "description": "First Name"
+    },
+    "secondname": {
+      "type": "string",
+      "description": "Second Name"
+    },
+    "address": {
+      "type": "string",
+      "description": "Address"
+    },
+    "telephone": {
+      "type": "string",
+      "description": "Telephone"
+    },
+    "city": {
+      "type": "string",
+      "description": "City"
+    },
+    "province": {
+      "type": "string",
+      "description": "Province"
+    },
+    "state": {
+      "type": "string",
+      "description": "State"
+    },
+    "style": {
+      "type": "string",
+      "description": "Theme style"
+    },
+    "description": {
+      "type": "string",
+      "description": ""
+    }
+  },
+  "validations": [],
+  "relations": {
+    "graphs": {
+      "type": "hasMany",
+      "model": "Graphs",
+      "foreignKey": "userstoid",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      }
+    },
+    "requests": {
+      "type": "hasMany",
+      "model": "Requests",
+      "foreignKey": "userstoid",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      }
+    },
+    "operations": {
+      "type": "hasMany",
+      "model": "Operations",
+      "foreignKey": "usersid",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      },
+      "through": "UsersOperations",
+      "keyThrough": "usersid"
+    },
+    "messages": {
+      "type": "hasMany",
+      "model": "Messagess",
+      "foreignKey": "usersid",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      },
+      "through": "UsersOperationsMessages",
+      "keyThrough": "usersid"
+    },
+    "authentication": {
+      "type": "belongsTo",
+      "model": "Authentication",
+      "foreignKey": "",
+      "options": {
+        "disableInclude": false
+      }
+    },
+    "pddstoragebs": {
+      "type": "hasMany",
+      "model": "Pddstorageb",
+      "foreignKey": "modelid"
+    },
+    "company": {
+      "type": "belongsTo",
+      "model": "Company",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

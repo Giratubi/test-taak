@@ -1,0 +1,40 @@
+{
+  "name": "UsersOperatiosMessages",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "CustomDescription": {
+      "descriptions": {}
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "description": "The id of UsersOperatiosMessages "
+    },
+    "usersid": {
+      "type": "number",
+      "required": true,
+      "description": "User id"
+    },
+    "operationsid": {
+      "type": "number",
+      "required": true,
+      "description": "Operation id"
+    },
+    "messagesid": {
+      "type": "number",
+      "required": true,
+      "description": "Message id"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
