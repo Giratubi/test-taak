@@ -824,8 +824,7 @@ angular
             let centerMarker, resizeMarker, circleLayerId;
             document.getElementById('aggiungiArea').addEventListener('click', function() {
                 const raggio = parseFloat(document.getElementById('raggioInput').value);
-                if (!isNaN(raggio) && raggio > 0) {
-                } else {
+                if (isNaN(raggio) && raggio <= 0) {
                     alert("Per favore, inserisci un valore valido per il raggio.");
                 }
                 if (!isAddingArea) { 
