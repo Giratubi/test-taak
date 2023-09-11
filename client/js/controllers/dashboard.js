@@ -295,103 +295,102 @@ angular
                         } else {
                             //$scope.lastsignal = 'Non pervenuta'
                         }
-                    });
-                    $scope.connectors = gate.results.connectors
-                    $scope.rele = gate.results.rele
-                    $scope.alarms = gate.results.listofalarms
-                    $timeout(function () {
-                        $("#showalarms").dataTable({
-                            retrieve: true,
-                            paging: false,
-                            ordering: false,
-                            info: false,
-                            searching: false,
-                            aLengthMenu: [
-                                [25, 50, 100, -1], [25, 50, 100, "Tutti"]
-                            ],
-                            language: {
-                                info: "Mostra pagina _PAGE_ of _PAGES_",
-                                lengthMenu: "Mostra _MENU_ records per riga",
-                                paginate: {
-                                    previous: "Indietro",
-                                    next: "Avanti",
-                                    first: "Prima pagina",
-                                    last: "Ultima pagina"
-                                },
-                                search: "Cerca"
-                            }
-                        })
-                    }, 50, false);
-                    $timeout(function () {
-                        $("#showconnectors").dataTable({
-                            retrieve: true,
-                            paging: false,
-                            ordering: false,
-                            info: false,
-                            searching: false,
-                            aLengthMenu: [
-                                [25, 50, 100, -1], [25, 50, 100, "Tutti"]
-                            ],
-                            language: {
-                                info: "Mostra pagina _PAGE_ of _PAGES_",
-                                lengthMenu: "Mostra _MENU_ records per riga",
-                                paginate: {
-                                    previous: "Indietro",
-                                    next: "Avanti",
-                                    first: "Prima pagina",
-                                    last: "Ultima pagina"
-                                },
-                                search: "Cerca"
-                            }
-                        })
-                        $("#showrele").dataTable({
-                            retrieve: true,
-                            paging: false,
-                            ordering: false,
-                            info: false,
-                            searching: false,
-                            aLengthMenu: [
-                                [25, 50, 100, -1], [25, 50, 100, "Tutti"]
-                            ],
-                            language: {
-                                info: "Mostra pagina _PAGE_ of _PAGES_",
-                                lengthMenu: "Mostra _MENU_ records per riga",
-                                paginate: {
-                                    previous: "Indietro",
-                                    next: "Avanti",
-                                    first: "Prima pagina",
-                                    last: "Ultima pagina"
-                                },
-                                search: "Cerca"
-                            }
-                        })
-                    }, 150, true);
-                    var filterareas = { where: { and: [{ gatewayId: gate.results.id }, { radiustype: $scope.selectedareatype.type }] } }
-                    //var lat = Number(gate.results.lat)
-                    //var lon = Number(gate.results.lon)
-                    Gatewayradius.find({ filter: filterareas }).$promise.then(function (gatewaysradius) {
-                        // console.log("gatewaysradius",gatewaysradius) 
-                        map = null
-                        var areacolor = null
-                        if ($scope.selectedareatype.type == "V") {
-                            areacolor = '#FF0000'
-                        }
-                        if ($scope.selectedareatype.type == "A") {
-                            areacolor = '#45602f'
-                        }
-                        var filterpos = { where: { gatewayId: gate.results.id } }
-                        Gatewayspositions.find({ filter: filterpos }).$promise.then(function (gatewayspositions) {
-                            console.log("gatewayspositions", gatewayspositions)
-                            filterespos = gatewayspositions.filter(el => {
-                                if (el.latitude > 0 && el.longitude > 0 && el.sat > 0 && el.distance < 10000 && el.distance > 1) {
-                                    return true
+                        $scope.connectors = gate.results.connectors
+                        $scope.rele = gate.results.rele
+                        $scope.alarms = gate.results.listofalarms
+                        $timeout(function () {
+                            $("#showalarms").dataTable({
+                                retrieve: true,
+                                paging: false,
+                                ordering: false,
+                                info: false,
+                                searching: false,
+                                aLengthMenu: [
+                                    [25, 50, 100, -1], [25, 50, 100, "Tutti"]
+                                ],
+                                language: {
+                                    info: "Mostra pagina _PAGE_ of _PAGES_",
+                                    lengthMenu: "Mostra _MENU_ records per riga",
+                                    paginate: {
+                                        previous: "Indietro",
+                                        next: "Avanti",
+                                        first: "Prima pagina",
+                                        last: "Ultima pagina"
+                                    },
+                                    search: "Cerca"
                                 }
-                                return false
                             })
-                            //filterespos = gatewayspositions
-                            $scope.positionfilterd = filterespos
-                            console.log("filterespos", filterespos)
-                            if (gtw.maptype) {
+                        }, 50, false);
+                        $timeout(function () {
+                            $("#showconnectors").dataTable({
+                                retrieve: true,
+                                paging: false,
+                                ordering: false,
+                                info: false,
+                                searching: false,
+                                aLengthMenu: [
+                                    [25, 50, 100, -1], [25, 50, 100, "Tutti"]
+                                ],
+                                language: {
+                                    info: "Mostra pagina _PAGE_ of _PAGES_",
+                                    lengthMenu: "Mostra _MENU_ records per riga",
+                                    paginate: {
+                                        previous: "Indietro",
+                                        next: "Avanti",
+                                        first: "Prima pagina",
+                                        last: "Ultima pagina"
+                                    },
+                                    search: "Cerca"
+                                }
+                            })
+                            $("#showrele").dataTable({
+                                retrieve: true,
+                                paging: false,
+                                ordering: false,
+                                info: false,
+                                searching: false,
+                                aLengthMenu: [
+                                    [25, 50, 100, -1], [25, 50, 100, "Tutti"]
+                                ],
+                                language: {
+                                    info: "Mostra pagina _PAGE_ of _PAGES_",
+                                    lengthMenu: "Mostra _MENU_ records per riga",
+                                    paginate: {
+                                        previous: "Indietro",
+                                        next: "Avanti",
+                                        first: "Prima pagina",
+                                        last: "Ultima pagina"
+                                    },
+                                    search: "Cerca"
+                                }
+                            })
+                        }, 150, true);
+                        var filterareas = { where: { and: [{ gatewayId: gate.results.id }, { radiustype: $scope.selectedareatype.type }] } }
+                        //var lat = Number(gate.results.lat)
+                        //var lon = Number(gate.results.lon)
+                        Gatewayradius.find({ filter: filterareas }).$promise.then(function (gatewaysradius) {
+                            // console.log("gatewaysradius",gatewaysradius) 
+                            map = null
+                            var areacolor = null
+                            if ($scope.selectedareatype.type == "V") {
+                                areacolor = '#FF0000'
+                            }
+                            if ($scope.selectedareatype.type == "A") {
+                                areacolor = '#45602f'
+                            }
+                            var filterpos = { where: { gatewayId: gate.results.id } }
+                            Gatewayspositions.find({ filter: filterpos }).$promise.then(function (gatewayspositions) {
+                                console.log("gatewayspositions", gatewayspositions)
+                                filterespos = gatewayspositions.filter(el => {
+                                    if (el.latitude > 0 && el.longitude > 0 && el.sat > 0 && el.distance < 10000 && el.distance > 1) {
+                                        return true
+                                    }
+                                    return false
+                                })
+                                //filterespos = gatewayspositions
+                                $scope.positionfilterd = filterespos
+                                console.log("filterespos", filterespos)
+                                
                                 if (filterespos.length > 0) {
                                     var gatewaypath = []
                                     var editable = true;
@@ -408,18 +407,32 @@ angular
                                             gatewaypath.push(obj)
                                         }
                                     }
-                                    console.log("gatewaypath", gatewaypath)
+                                    //console.log("gatewaypath", gatewaypath)
                                     var lat = Number(gatewaypath[gatewaypath.length - 1].lat)
                                     var lon = Number(gatewaypath[gatewaypath.length - 1].lng)
                                     $scope.lat = lat
                                     $scope.lon = lon
                                     // mapbox
                                     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2lyYXR1YmkiLCJhIjoiY2swMjVkYjlsMDBtajNubzJ5d2hoYWRqNiJ9.jRLdnDtelDLninFKQF1NIQ';
+                                    let mapStyle = 'mapbox://styles/mapbox/satellite-v9' 
+                                    console.log("gtw.maptype",gtw.maptype);
+                                    if (gtw.maptype) {
+                                        if (gtw.maptype == 1) {
+                                            mapStyle = 'mapbox://styles/mapbox/satellite-v9' 
+                                        }
+                                        if (gtw.maptype == 2) {
+                                            mapStyle = 'mapbox://styles/mapbox/streets-v11' 
+                                        }
+                                        if (gtw.maptype == 3) {
+                                            mapStyle = 'mapbox://styles/-taaak-/clmar3c9c019x01pfe75h1nc9' 
+                                        }
+                                    }
+                                    console.log("mapStyle",mapStyle);
                                     mapb = new mapboxgl.Map({
-                                        container: 'mapb', // container ID
-                                        style: 'mapbox://styles/-taaak-/clm62zjz100xo01pbayureo6o', // URL dello stile che hai fornito
-                                        center: [lon, lat], // Coordinate iniziali. Le ho prese dal tuo URL, ma puoi modificarle se necessario.
-                                        zoom: 15 // Zoom iniziale. Anche questo l'ho preso dal tuo URL.
+                                        container: 'mapb',
+                                        style: mapStyle,
+                                        center: [lon, lat],
+                                        zoom: 15
                                     });
                                     mapb.on('load', () => {
                                         var markerB = new mapboxgl.Marker()
@@ -433,21 +446,23 @@ angular
                                                 "coordinates": gatewaypath.map(point => [point.lng, point.lat])
                                             }
                                         };
-                                        mapb.addSource('polylineSource', {
+                                        mapb.addSource('LineString', {
                                             "type": "geojson",
                                             "data": geojson
                                         });
                                         mapb.addLayer({
-                                            "id": "polylineLayer",
-                                            "type": "line",
-                                            "source": "polylineSource",
-                                            "layout": {},
-                                            "paint": {
-                                                "line-color": "#181fd7",
-                                                "line-width": 2,
-                                                "line-opacity": 1.0
+                                            'id': 'LineString',
+                                            'type': 'line',
+                                            'source': 'LineString',
+                                            'layout': {
+                                                'line-join': 'round',
+                                                'line-cap': 'round'
+                                            },
+                                            'paint': {
+                                                'line-color': '#0000ff',
+                                                'line-width': 2
                                             }
-                                        });
+                                        })
                                         if (gatewaysradius.length > 0) {
                                             var positions = gatewaysradius;
                                             for (var pos of positions) {
@@ -469,15 +484,22 @@ angular
                                                         'fill-outline-color': areacolor
                                                     }
                                                 });
+                                                // ORIGINALE
                                                 mapb.on("click", pos.id.toString(), function (event) {
-                                                    $scope.selectedarea = event.features[0].id;
+                                                    const features = mapb.queryRenderedFeatures(event.point);
+                                                    if (features.length) {
+                                                        const layerId = features[0].layer.id;
+                                                        console.log("Hai cliccato sul layer con ID:", layerId);
+                                                        console.log("dati del cerchio ",pos)
+                                                        $scope.selectedarea = layerId
+                                                    }
                                                     $('#showdeletearea').hide();
                                                     $('#showdeleteareaForNew').hide();
                                                     $timeout(function () {
                                                         if (editable == true) {
                                                             $('#showdeletearea').show();
                                                         }
-                                                    }, 500, true);
+                                                    }, 100, true);
                                                 });
                                                 mapb.on("mouseenter", pos.id.toString(), function () {
                                                     $scope.isMouseOnMap = true;
@@ -491,301 +513,129 @@ angular
                                                 });
                                             }
                                         }
+                                        var divElement = document.querySelector('.mapboxgl-ctrl-logo');
+                                        // Verifica se l'elemento esiste
+                                        console.log("divElements",divElement);
+                                        if (divElement) {
+                                            var newDivElement = document.createElement('div');
+                                            newDivElement.className = divElement.className;
+                                            divElement.parentNode.replaceChild(newDivElement, divElement);
+                                            newDivElement.innerHTML = `
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <button id="satellite" class="btn btn-primary">Satellite</button>        
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <button id="politica" class="btn btn-primary">Politica</button>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <button id="batimetrica" class="btn btn-primary">Batimetrica</button>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                        }
+                                        document.getElementById('satellite').addEventListener('click', function() {
+                                            Gateway.updateAttributes({ id: $scope.gateway.id }, { maptype: 1 }).$promise.then(function (res) {
+                                                //$scope.showGateway($scope.gateway);
+                                                // let savedLayers = [];
+                                                // mapb.getStyle().layers.forEach(layer => {
+                                                //     if(layer.id === layer.source){
+                                                //         savedLayers.push({
+                                                //             id: layer.id,
+                                                //             type: layer.type,
+                                                //             source: mapb.getSource(layer.source),
+                                                //             layout: layer.layout,
+                                                //             paint: layer.paint
+                                                //         });
+                                                //     }
+                                                // });
+                                                // console.log("savedLayers",savedLayers);
+                                                mapb.setStyle('mapbox://styles/mapbox/satellite-v9');
+                                                // mapb.on('style.load', function() {
+                                                //     savedLayers.forEach(layer => {
+                                                //         //mapb.addLayer(layer);
+                                                //     });
+                                                // });
+                                                setTimeout(()=>{
+                                                    $scope.showGateway(res);
+                                                },500)
+                                            })
+                                        });
+                                        document.getElementById('politica').addEventListener('click', function() {
+                                            Gateway.updateAttributes({ id: $scope.gateway.id }, { maptype: 2 }).$promise.then(function (res) {
+                                                //$scope.showGateway($scope.gateway);
+                                                // let savedLayers = [];
+                                                // mapb.getStyle().layers.forEach(layer => {
+                                                //     if(layer.id === layer.source){
+                                                //         savedLayers.push({
+                                                //             id: layer.id,
+                                                //             type: layer.type,
+                                                //             source: mapb.getSource(layer.source),
+                                                //             layout: layer.layout,
+                                                //             paint: layer.paint
+                                                //         });
+                                                //     }
+                                                // });
+                                                // console.log("savedLayers",savedLayers);
+                                                mapb.setStyle('mapbox://styles/mapbox/streets-v11');
+                                                // mapb.on('style.load', function() {
+                                                //     savedLayers.forEach(layer => {
+                                                //         //mapb.addLayer(layer);
+                                                //     });
+                                                // });
+                                                setTimeout(()=>{
+                                                    $scope.showGateway(res);
+                                                },500)
+                                            })
+                                        });
+                                        document.getElementById('batimetrica').addEventListener('click', function() {
+                                            Gateway.updateAttributes({ id: $scope.gateway.id }, { maptype: 3 }).$promise.then(function (res) {
+                                                // let savedLayers = [];
+                                                // mapb.getStyle().layers.forEach(layer => {
+                                                //     if(layer.id === layer.source){
+                                                //         savedLayers.push({
+                                                //             id: layer.id,
+                                                //             type: layer.type,
+                                                //             source: mapb.getSource(layer.source),
+                                                //             layout: layer.layout,
+                                                //             paint: layer.paint
+                                                //         });
+                                                //     }
+                                                // });
+                                                // console.log("savedLayers",savedLayers);
+                                                mapb.setStyle('mapbox://styles/-taaak-/clmar3c9c019x01pfe75h1nc9');
+                                                // mapb.on('style.load', function() {
+                                                //     savedLayers.forEach(layer => {
+                                                //         delete layer.layout;
+                                                //         //mapb.addLayer(layer);
+                                                //     });
+                                                // });
+                                                setTimeout(()=>{
+                                                    $scope.showGateway(res);
+                                                },500)
+                                            })
+                                        });
+                                    });
+                                    document.getElementById("gatewayShow").scrollIntoView({
+                                        behavior: "smooth", // animazione di scorrimento morbido
+                                        block: "start",     // allinea l'inizio dell'elemento all'inizio della viewport
+                                        inline: "nearest"   // mantiene l'elemento nelle stesse coordinate orizzontali
                                     });
                                 }
-                            } else {
-                                if (filterespos.length > 0) {
-                                    var gatewaypath = []
-                                    for (var [index, po] of filterespos.entries()) {
-                                        //console.log("index",index)
-                                        var firstdate = filterespos[filterespos.length - 1].reciveddate
-                                        var seconddate = filterespos[index].reciveddate
-                                        var datedifferent = firstdate - seconddate
-                                        var obj = {
-                                            lat: Number(po.latitude),
-                                            lng: Number(po.longitude)
-                                        }
-                                        if (datedifferent <= 172800000) {    //  48h  in millisecond
-                                            gatewaypath.push(obj)
-                                        }
-                                    }
-                                    console.log("gatewaypath", gatewaypath)
-                                    var lat = Number(gatewaypath[gatewaypath.length - 1].lat)
-                                    var lon = Number(gatewaypath[gatewaypath.length - 1].lng)
-                                    $scope.lat = lat
-                                    $scope.lon = lon
-                                    console.log("LAT", lat)
-                                    console.log("LON", lon)
-                                    $scope.speed = gatewayspositions[gatewayspositions.length - 1].speed
-                                    $scope.originalspeed = gatewayspositions[gatewayspositions.length - 1].speed
-                                    $timeout(function () {
-                                        var static_position = new google.maps.LatLng(lat, lon);
-                                        var the_circle = null;
-                                        $scope.static_position = static_position;
-                                        map = new google.maps.Map(document.getElementById('mapgtw'), {
-                                            center: static_position,
-                                            zoom: 15,
-                                            draggable: false,
-                                            draggableCursor: 'pointer',
-                                        });
-                                        var image =
-                                            "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-                                        var beachMarker = new google.maps.Marker({
-                                            position: { lat: lat, lng: lon },
-                                            map,
-                                            icon: image,
-                                        });
-                                        var flightPath = new google.maps.Polyline({
-                                            path: gatewaypath,
-                                            geodesic: true,
-                                            strokeColor: "#181fd7",
-                                            strokeOpacity: 1.0,
-                                            strokeWeight: 2,
-                                        });
-                                        flightPath.setMap(map);
-                                        //console.log("gatewaypath",gatewaypath)
-                                        if (gatewaysradius.length > 0) {
-                                            var positions = gatewaysradius
-                                            var areas = null
-                                            var editable = true
-                                            for (var pos of positions) {
-                                                //console.log("POS",pos)
-                                                var objpos = {
-                                                    pos: {
-                                                        center: { lat: Number(pos.latitude), lng: Number(pos.longitude) }
-                                                    }
-                                                };
-                                                if (pos.radiustype == "V" && $scope.isuserrole == true) {
-                                                    editable = false
-                                                    //console.log("$scope.isFinalOwner",$scope.isFinalOwner)
-                                                    //console.log("editable",editable)
-                                                }
-                                                areas = new google.maps.Circle({
-                                                    strokeColor: areacolor,
-                                                    strokeOpacity: 0.8,
-                                                    strokeWeight: 2,
-                                                    fillColor: areacolor,
-                                                    fillOpacity: 0.35,
-                                                    map,
-                                                    editable: editable,
-                                                    center: objpos.pos.center,
-                                                    radius: Number(pos.radius),
-                                                    id: pos.id,
-                                                });
-                                                map.addListener("mouseover", () => {
-                                                    //console.log("SONO NEL MOUSE OVER")
-                                                    $scope.isMouseOnMap = true
-                                                });
-                                                map.addListener("mouseout", () => {
-                                                    //console.log("SONO NEL MOUSE mouseout")
-                                                    $scope.isMouseOnMap = false
-                                                });
-                                                google.maps.event.addListener(areas, 'radius_changed', function (event) {
-                                                    var obj = {
-                                                        latitude: this.getCenter().lat(),
-                                                        longitude: this.getCenter().lng(),
-                                                        radius: this.getRadius()
-                                                    }
-                                                    var id = this.id
-                                                    Gatewayradius.updateAttributes({ id: id }, obj).$promise.then(function (gtwpos) {
-                                                        $('#showdeletearea').hide()
-                                                        initializate()
-                                                        toastr.success("Diametro area aggiornato correttamente", "Avviso", opts);
-                                                    });
-                                                });
-                                                google.maps.event.addListener(areas, 'center_changed', function (event) {
-                                                    var obj = {
-                                                        latitude: this.getCenter().lat(),
-                                                        longitude: this.getCenter().lng(),
-                                                        radius: this.getRadius()
-                                                    }
-                                                    var id = this.id
-                                                    Gatewayradius.updateAttributes({ id: id }, obj).$promise.then(function (gtwpos) {
-                                                        $('#showdeletearea').hide()
-                                                        initializate()
-                                                        toastr.success("Posizione area aggiornata correttamente", "Avviso", opts);
-                                                    });
-                                                });
-                                                google.maps.event.addListener(areas, 'click', function (event) {
-                                                    $scope.selectedarea = this.id
-                                                    console.log("$scope.selectedarea", $scope.selectedarea)
-                                                    $('#showdeletearea').hide()
-                                                    $('#showdeleteareaForNew').hide()
-                                                    $timeout(function () {
-                                                        if (editable == true) {
-                                                            $('#showdeletearea').show()
-                                                        }
-                                                    }, 500, true);
-                                                });
-                                            }
-                                        }
-                                        var mousemove_handler;
-                                        map.setOptions({ draggable: true, draggableCursor: '' });
-                                    }, 1000, true);
-                                }
-                            }
-                            // if(filterespos.length >0){
-                            //   var gatewaypath =[] 
-                            //   for (var [index, po] of filterespos.entries()){
-                            //       //console.log("index",index)
-                            //       var firstdate = filterespos[filterespos.length-1].reciveddate
-                            //       var seconddate = filterespos[index].reciveddate
-                            //       var datedifferent = firstdate - seconddate 
-                            //       var obj = {lat:Number(po.latitude),
-                            //             lng:Number(po.longitude)}
-                            //       if(datedifferent <= 172800000){    //  48h  in millisecond
-                            //           gatewaypath.push(obj)
-                            //       }
-                            //   }
-                            //   console.log("gatewaypath",gatewaypath)
-                            //   var lat = Number(gatewaypath[gatewaypath.length-1].lat)
-                            //   var lon = Number(gatewaypath[gatewaypath.length-1].lng)
-                            //   $scope.lat = lat
-                            //   $scope.lon = lon
-                            //   // mapbox
-                            //   mapboxgl.accessToken = 'pk.eyJ1IjoiZ2lyYXR1YmkiLCJhIjoiY2swMjVkYjlsMDBtajNubzJ5d2hoYWRqNiJ9.jRLdnDtelDLninFKQF1NIQ';
-                            //   const mapb = new mapboxgl.Map({
-                            //     container: 'mapb', // container ID
-                            //     style: 'mapbox://styles/-taaak-/clm62zjz100xo01pbayureo6o', // URL dello stile che hai fornito
-                            //     center: [lon,lat], // Coordinate iniziali. Le ho prese dal tuo URL, ma puoi modificarle se necessario.
-                            //     zoom: 15 // Zoom iniziale. Anche questo l'ho preso dal tuo URL.
-                            //   });
-                            //   mapb.on('load', () => {
-                            //     mapb.addLayer({
-                            //       id: 'terrain-data',
-                            //       type: 'line',
-                            //       source: {
-                            //         type: 'vector',
-                            //         url: 'mapbox://mapbox.mapbox-terrain-v2'
-                            //       },
-                            //       'source-layer': 'contour'
-                            //     });
-                            //     var markerB = new mapboxgl.Marker()
-                            //       .setLngLat(mapb.getCenter())
-                            //       .addTo(mapb);
-                            //   });
-                            //   // mapbox end
-                            //   console.log("LAT",lat)
-                            //   console.log("LON",lon)
-                            //   $scope.speed = gatewayspositions[gatewayspositions.length-1].speed
-                            //   $scope.originalspeed = gatewayspositions[gatewayspositions.length-1].speed
-                            //   $timeout(function(){      
-                            //     var static_position = new google.maps.LatLng(lat, lon);
-                            //     var the_circle = null;
-                            //     $scope.static_position = static_position;
-                            //     map = new google.maps.Map(document.getElementById('mapgtw'), {
-                            //         center: static_position,
-                            //         zoom: 15,
-                            //         draggable: false,
-                            //         draggableCursor:'pointer',
-                            //     });
-                            //     var image =
-                            //       "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-                            //     var beachMarker = new google.maps.Marker({
-                            //       position: { lat: lat, lng: lon },
-                            //       map,
-                            //       icon: image,
-                            //     });
-                            //     var flightPath = new google.maps.Polyline({
-                            //         path: gatewaypath,
-                            //         geodesic: true,
-                            //         strokeColor: "#181fd7",
-                            //         strokeOpacity: 1.0,
-                            //         strokeWeight: 2,
-                            //       });
-                            //       flightPath.setMap(map);
-                            //       //console.log("gatewaypath",gatewaypath)
-                            //     if(gatewaysradius.length >0){
-                            //       var positions = gatewaysradius
-                            //       var areas = null 
-                            //       var editable = true         
-                            //       for (var pos of positions){
-                            //         //console.log("POS",pos)
-                            //         var objpos = {
-                            //           pos: {
-                            //             center: { lat: Number(pos.latitude), lng: Number(pos.longitude) }            
-                            //           }
-                            //         };
-                            //         if(pos.radiustype == "V" && $scope.isuserrole == true){
-                            //           editable = false
-                            //           //console.log("$scope.isFinalOwner",$scope.isFinalOwner)
-                            //           //console.log("editable",editable)
-                            //         }          
-                            //       areas = new google.maps.Circle({
-                            //           strokeColor:areacolor,
-                            //           strokeOpacity: 0.8,
-                            //           strokeWeight: 2,
-                            //           fillColor: areacolor,
-                            //           fillOpacity: 0.35,
-                            //           map,
-                            //           editable: editable,
-                            //           center: objpos.pos.center,
-                            //           radius: Number(pos.radius),
-                            //           id:pos.id,
-                            //         });
-                            //         map.addListener("mouseover", () => {
-                            //             //console.log("SONO NEL MOUSE OVER")
-                            //             $scope.isMouseOnMap = true
-                            //         }); 
-                            //           map.addListener("mouseout", () => {
-                            //             //console.log("SONO NEL MOUSE mouseout")
-                            //             $scope.isMouseOnMap = false
-                            //         }); 
-                            //         google.maps.event.addListener(areas, 'radius_changed', function (event) {
-                            //             var obj = {latitude:this.getCenter().lat(),
-                            //                     longitude:this.getCenter().lng(),
-                            //                     radius:this.getRadius()}
-                            //             var id = this.id
-                            //             Gatewayradius.updateAttributes({id:id},obj).$promise.then(function(gtwpos){           
-                            //               $('#showdeletearea').hide()
-                            //               initializate()
-                            //               toastr.success("Diametro area aggiornato correttamente", "Avviso",opts);            
-                            //             });      
-                            //         });
-                            //         google.maps.event.addListener(areas, 'center_changed', function (event) {
-                            //             var obj = {latitude:this.getCenter().lat(),
-                            //                     longitude:this.getCenter().lng(),
-                            //                     radius:this.getRadius()}
-                            //             var id = this.id
-                            //             Gatewayradius.updateAttributes({id:id},obj).$promise.then(function(gtwpos){           
-                            //               $('#showdeletearea').hide()
-                            //               initializate()
-                            //               toastr.success("Posizione area aggiornata correttamente", "Avviso",opts); 
-                            //             });
-                            //         });               
-                            //         google.maps.event.addListener(areas, 'click', function (event) {
-                            //           $scope.selectedarea = this.id
-                            //           console.log("$scope.selectedarea",$scope.selectedarea)
-                            //           $('#showdeletearea').hide()
-                            //           $('#showdeleteareaForNew').hide()
-                            //           $timeout(function(){
-                            //             if(editable == true){
-                            //                 $('#showdeletearea').show()
-                            //             }
-                            //             }, 500, true);
-                            //         });          
-                            //       }
-                            //     }
-                            //     var mousemove_handler;
-                            //     map.setOptions({draggable:true, draggableCursor:''});                  
-                            //   }, 1000, true);
-                            // }
-                        })
+                                
+                            })
+                        });
                     });
                 })
             }
-            $scope.setBatimetricMap = function (gateway) {
-                console.log("clicco switch ed ho gateway", gateway);
-                let maptype = 0
-                if (gateway.maptype) {
-                    maptype = 0;
-                } else {
-                    maptype = 1;
-                }
-                Gateway.updateAttributes({ id: gateway.id }, { maptype: maptype }).$promise.then(function (res) {
-                    $scope.showGateway(gateway);
-                })
-            }
+            // $scope.setBatimetricMap = function (gateway,id) {
+            //     console.log("clicco switch ed ho gateway", gateway);
+            //     let maptype = id;
+            //     Gateway.updateAttributes({ id: gateway.id }, { maptype: maptype }).$promise.then(function (res) {
+            //         $scope.showGateway(gateway);
+            //     })
+            // }
             $scope.newAreaClick = function ($event) {
                 var statusdiv = document.getElementById('gpssettings');
                 var checkstatus = statusdiv.classList.contains('in')
@@ -795,7 +645,6 @@ angular
                 if (checkstatus == true) {
                     $scope.isNewAreaOpen = false
                 }
-                console.log("checkstatus", checkstatus)
             }
             $scope.changeAreas = function () {
                 $scope.showGateway($scope.gtw)
@@ -810,16 +659,6 @@ angular
                 }
             }
 
-            /// mapbox new row button
-            document.getElementById('stileBase').addEventListener('click', function() {
-                mapb.setStyle('mapbox://styles/mapbox/streets-v11');
-            });
-            document.getElementById('stileSatellite').addEventListener('click', function() {
-                mapb.setStyle('mapbox://styles/mapbox/satellite-v9');
-            });
-            document.getElementById('stileBatimetrico').addEventListener('click', function() {
-                mapb.setStyle('mapbox://styles/-taaak-/clm62zjz100xo01pbayureo6o');
-            });
             let isAddingArea = false;
             let centerMarker, resizeMarker, circleLayerId;
             
@@ -828,21 +667,26 @@ angular
                     const newCenter = centerMarker.getLngLat();
                     // Sposta anche il marker di ridimensionamento
                     const bearing = turf.bearing(newCenter.toArray(), resizeMarker.getLngLat().toArray());
-                    const distance = turf.distance(newCenter.toArray(), resizeMarker.getLngLat().toArray(), 'meters');
-                    const newEdgePoint = turf.destination(newCenter.toArray(), distance, bearing, 'meters').geometry.coordinates;
+                    let distance = Number($scope.radius)/1000;
+                    const newEdgePoint = turf.destination(newCenter.toArray(), distance, bearing, 'kilometers').geometry.coordinates;
                     resizeMarker.setLngLat(newEdgePoint);
                     updateCircle(newCenter, distance);
                 });
                 resizeMarker.on('drag', function() {
+                    console.log("sono il drag estenro")
                     const center = centerMarker.getLngLat();
                     const edge = resizeMarker.getLngLat();
-                    const newRadius = Math.max(1, turf.distance(center.toArray(), edge.toArray(), 'meters'));
+                    const newRadius = turf.distance(center.toArray(), edge.toArray(), 'kilometers');
+                    $scope.radius = newRadius*1000;
                     updateCircle(center, newRadius);
                 });
                 function updateCircle(center, radius) {
-                    radius = Math.max(1, radius);
-                    const newCircle = turf.circle(center.toArray(), radius, {steps: 100, units: 'meters'});
+                    //radius = Math.max(1, radius);
+                    console.log("radius",radius);
+                    const newCircle = turf.circle(center.toArray(), radius, {steps: 100, units: 'kilometers'});
                     mapb.getSource(circleLayerId).setData(newCircle);
+                    $scope.latitude = center.lat
+                    $scope.longitude = center.lng
                 }
             }
             $scope.dashboard = {
@@ -893,23 +737,24 @@ angular
             function createCircle(center, radius) {
                 $('#showdeletearea').hide()
                 //console.log("center",center)
-                $scope.radius = null
+                
                 $scope.latitude = null
                 $scope.longitude = null
                 if (!isAddingArea) { 
                     isAddingArea = true;
-                    const center = mapb.getCenter().toArray(); 
-                    const radius = $scope.radius; 
-                    const circleOptions = { steps: 100, units: 'meters' };
+                    center = mapb.getCenter().toArray(); 
+                    radius = Number($scope.radius)/1000; 
+                    const circleOptions = { steps: 100, units: 'kilometers' };
                     const circlePolygon = turf.circle(center, radius, circleOptions);
                     circleLayerId = Date.now().toString();
+                    let circleLayerId2 = (Number(circleLayerId)+1).toString();
                     if (mapb.getSource(circleLayerId)) { // Elimina la sorgente e il layer esistenti se ci sono
                         mapb.removeLayer(circleLayerId);
                         mapb.removeSource(circleLayerId);
                     }
                     mapb.addSource(circleLayerId, {
                         type: 'geojson',
-                        data: circlePolygon
+                        data: circlePolygon,
                     });
                     mapb.addLayer({
                         id: circleLayerId,
@@ -917,27 +762,43 @@ angular
                         source: circleLayerId,
                         paint: {
                             'fill-color': '#FF0000',
-                            'fill-opacity': 0.9,
+                            'fill-opacity': 0.7,
                             'fill-outline-color' : '#000000'
                         }
                     });
+                    mapb.addLayer({
+                        id: circleLayerId2,
+                        type: 'line',
+                        source: circleLayerId,
+                        paint: {
+                            'line-color': '#000000',
+                            'line-width' : 2
+                        }
+                    });
                     mapb.moveLayer(circleLayerId);
-                    centerMarker = new mapboxgl.Marker({
-                        color: "#000000",
-                        draggable: true
-                    }).setLngLat(center).addTo(mapb);
                     resizeElement = document.createElement('div');
-                    resizeElement.style.width = '20px';
-                    resizeElement.style.height = '20px';
-                    resizeElement.style.background = 'blue';
-                    resizeElement.style.border = '2px solid white';
+                    resizeElement.style.width = '10px';
+                    resizeElement.style.height = '10px';
+                    resizeElement.style.background = '#000000';
+                    resizeElement.style.border = '1px solid white';
                     resizeElement.style.borderRadius = '50%';
-                    resizeElement.style.zIndex = '9999';
+                    centerMarker = new mapboxgl.Marker(resizeElement).setDraggable(true).setLngLat(center).addTo(mapb);
+                    $scope.latitude = mapb.getCenter().toArray()[0]
+                    $scope.longitude = mapb.getCenter().toArray()[1]
+                    // resizeElement = document.createElement('i');
+                    // resizeElement.style.fontSize = '20px';
+                    // resizeElement.style.color = '#00ff00'
+                    // resizeElement.style.background = 'blue';
+                    // resizeElement.classList.add('fa', 'fa-arrows');
+                    resizeElement = document.createElement('div');
+                    resizeElement.style.width = '15px';
+                    resizeElement.style.height = '15px';
+                    resizeElement.style.background = '#000000';
+                    resizeElement.style.border = '1px solid white';
+                    resizeElement.style.borderRadius = '50%';
                     try {
-                        const edgePoint = turf.destination(center, radius, 100, 'meters').geometry.coordinates;
-                        console.log("Punto di bordo:", edgePoint);
-                        resizeMarker = new mapboxgl.Marker(resizeElement)
-                            .setLngLat(edgePoint)
+                        const edgePoint = turf.destination(center, radius, 100, 'kilometers').geometry.coordinates;
+                        resizeMarker = new mapboxgl.Marker(resizeElement).setLngLat(edgePoint)
                             .setDraggable(true)
                             .addTo(mapb);
                     } catch (error) {
@@ -945,8 +806,9 @@ angular
                     }
                     setMarkerListeners(centerMarker, resizeMarker, circleLayerId);
                     isAddingArea = false;
+                    $('#showdeleteareaForNew').show()
                 }
-                //return circle;
+                return true;
             }
             $scope.removeArea = function () {
                 if ($scope.selectedareatype.type == "V" && $scope.isuserrole == true) {

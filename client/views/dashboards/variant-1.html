@@ -74,7 +74,7 @@
 
 	<!-- SINGLE GATEWAY -->
 
-	<div class="panelblue panel panel-default" ng-show="showSingleGateway == true">
+	<div class="panelblue panel panel-default" ng-show="showSingleGateway == true" id="gatewayShow">
 		<div class="panel-body">
 			<div class="col-sm-12">
 				<div class="row mrb20">
@@ -272,11 +272,6 @@
 					<div class="col-sm-1 col-xs-1 mrgm45">
 						<button type="button" ng-click="showCoordinate(gateway)"  class="btn btn-secondary" style="margin-right: 25px;margin-top: 15px;"><span class="fa fa-bar-chart-o"></span></button>
 					</div>
-					<div class="col-sm-1 col-xs-1 mrgm45">
-						<button type="button" ng-click="setBatimetricMap(gateway)"  class="btn btn-secondary" style="margin-right: 25px;margin-top: 15px;">
-							<span class="fa fa-globe" aria-hidden="true"></span>
-						</button>
-					</div>
 					<div class="col-sm-1 col-xs-6">
 						<h3 class="text-center">Gps</h3>
 					</div>
@@ -342,7 +337,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
+			<!-- <div class="col-sm-12">
 				<h2>Tipo di Visualizzazione mappa</h2>
 				<button id="stileBase">Street</button>
 				<button id="stileSatellite">Satellite</button>
@@ -352,7 +347,7 @@
 				<h2>Funzioni</h2>
 				<input type="number" id="raggioInput" placeholder="Inserisci raggio in metri">
 				<button id="aggiungiArea">Aggiungi Area</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 
@@ -380,7 +375,7 @@
 						</button>
             		</div>
             		<div id="mapgtw" ng-show="!gateway.maptype"></div>
-					<div id="mapb" ng-show="gateway.maptype" style="height: calc(100vh);margin-top: 20px;"></div>
+					<div id="mapb" ng-show="gateway.maptype" style="height: calc(50vh);"></div>
 				</div>
 			</div>
 
